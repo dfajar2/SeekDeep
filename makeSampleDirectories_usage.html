@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Nicholas Hathaway" />
+
+
+<title>SeekDeep makeSampleDirectories Usage</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="commonStyle.css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">SeekDeep</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-sitemap"></span>
+     
+    Installing
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="installingSeekDeep_Mac.html">
+        <span class="fa fa-apple"></span>
+         
+        Mac OS
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Ubuntu.html">
+        <span class="fa fa-linux"></span>
+         
+        Ubuntu
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Windows.html">
+        <span class="fa fa-windows"></span>
+         
+        Windows
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_vagrant.html">Vagrant/virtual image (any system)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-code"></span>
+     
+    Code
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://github.com/bailey-lab/SeekDeep">
+        <span class="fa fa-github"></span>
+         
+        Github
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-wrench"></span>
+     
+    Usages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Pipeline</li>
+    <li>
+      <a href="extractor_usage.html">extractor/extractorPairedEnd</a>
+    </li>
+    <li>
+      <a href="makeSampleDirectories_usage.html">makeSampleDirectories</a>
+    </li>
+    <li>
+      <a href="qluster_usage.html">qluster</a>
+    </li>
+    <li>
+      <a href="processClusters_usage.html">processClusters</a>
+    </li>
+    <li>
+      <a href="popClusteringViewer_usage.html">popClusteringViewer</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Pipeline Wrapper</li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Utilities</li>
+    <li>
+      <a href="genTargetInfoFromGenomes_usage.html">genTargetInfoFromGenomes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-terminal"></span>
+     
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Single End (454/IonTorrent/Stitched Illumina)</li>
+    <li>
+      <a href="tutorial_IonTorrent_MIDs.html">Ion Torrent with MIDs</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Illumina Paired End</li>
+    <li>
+      <a href="tutorial_PairedEnd_noMIDs.html">Paired End No MIDs</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Misc Info
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="illumina_paired_info.html">Illumina Paired End Info</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">SeekDeep makeSampleDirectories Usage</h1>
+<h4 class="author"><em>Nicholas Hathaway</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#makesampledirectoriess-purpose">makeSampleDirectories’s Purpose</a></li>
+<li><a href="#getting-usage-command-line">Getting usage command line</a></li>
+<li><a href="#format-of-set-up-file">Format of set up file</a><ul>
+<li><a href="#dual-replicates">Dual replicates</a></li>
+<li><a href="#single-replicates">Single replicates</a></li>
+<li><a href="#mixed-replicates">mixed replicates</a></li>
+</ul></li>
+<li><a href="#output-directory-name">Output directory name</a></li>
+<li><a href="#output-files">Output files</a><ul>
+<li><a href="#location-file-for-qluster">Location file for qluster</a></li>
+</ul></li>
+</ul>
+</div>
+
+<section id="makesampledirectoriess-purpose" class="level1 purposeDiv">
+<h1>makeSampleDirectories’s Purpose</h1>
+<p><a href="#TOC">back to top</a><br />
+The intent of makeSampleDirectories is to set up the directory tree structure needed by <a href="processClusters_usage.html">SeekDeep processClusters</a> and to ease the process of putting output files into the tree. SeekDeep makeSampleDirectories needs two arguments given by the <code>--file</code> and <code>--dout</code> flags. The <code>--file</code> supplies the set up file needed (explained below) and the <code>--dout</code> flag names the directory that will be created (it will not over write already existing directories). It has mostly been developed for use with multiplex data.</p>
+</section>
+<section id="getting-usage-command-line" class="level1">
+<h1>Getting usage command line</h1>
+<p><a href="#TOC">back to top</a><br />
+Just typing the name of the program will give a help message on running the program</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="ex">SeekDeep</span> makeSampleDirectories </a></code></pre></div>
+<pre><code>makeSampleDirectoires 
+Set up a directory tree for processClusters 
+Commands, order not necessary, flags are case insensitive 
+Required commands 
+--file [option], name of the file of sample names to read in 
+--dout [option], name of the main directory to create 
+File should be tab delimited and a few examples are below 
+File should have at least three columns 
+Where first column is the name of the index or sff file used, second column is 
+    the sample names, and all following columns are the MIDs for that samples 
+    samples 
+Example with two replicates and two separate master indexes
+1   090-00  MID01   MID02
+1   090-24  MID03   MID04
+1   090-48  MID05   MID06
+...
+...</code></pre>
+<p>Also calling <code>-help</code> will do the same</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="ex">SeekDeep</span> makeSampleDirectories --help </a></code></pre></div>
+<p>Also all flags in SeekDeep are case insensitive and so all the following would have the same results</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="ex">SeekDeep</span> makeSampleDirectories --help </a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="ex">SeekDeep</span> MakeSampleDirectories --HELP</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="ex">SeekDeep</span> makeSampleDirectories --HeLP</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="ex">SeekDeep</span> MAKESAMPLEDIRECTORIES --HeLp</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="ex">SeekDeep</span> makeSampleDirectories --HeLP</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="ex">SeekDeep</span> makesampledirectories --HeLp</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="ex">SeekDeep</span> makesampleDirectories --HeLp</a></code></pre></div>
+</section>
+<section id="format-of-set-up-file" class="level1">
+<h1>Format of set up file</h1>
+<p>The set up file contains at least three columns. The first column is a identifier for the sequence file that contains the sample sequence’s data. The second column is the name of the sample. The third column is the name of the MID for that sample and each additional column is another replicate for that sample in the that file. Any line that starts with a # or is a blank line will be ignored.</p>
+<section id="dual-replicates" class="level2">
+<h2>Dual replicates</h2>
+<p><a href="#TOC">back to top</a><br />
+Below would be for example of a sequencing experiment that included 20 samples and each sample contained 2 PCR replicates and the sequencing itself was done on two lanes or cells (eg. Two Illumina Lanes or two Different Ion torrent runs)</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="fu">cat</span> exampleSampleNames.tab.txt</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="ex">SeekDeep</span> makeSampleDirectories --file exampleSampleNames.tab.txt --dout filesForProcessClusters</a></code></pre></div>
+</section>
+<section id="single-replicates" class="level2">
+<h2>Single replicates</h2>
+<p><a href="#TOC">back to top</a><br />
+Below would be for example of a sequencing experiment that included 20 samples and each sample contained only 1 PCR replicates and the sequencing itself was done on two lanes or cells (eg. Two Illumina Lanes or two Different Ion torrent runs)</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="fu">cat</span> exampleSampleNamesSingleReps.tab.txt</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="ex">SeekDeep</span> makeSampleDirectories --file exampleSampleNamesSingleReps.tab.txt --dout filesForProcessClusters</a></code></pre></div>
+</section>
+<section id="mixed-replicates" class="level2">
+<h2>mixed replicates</h2>
+<p><a href="#TOC">back to top</a><br />
+Now you might have a experiment like the one with dual replicates but maybe you only one replicate for a couple of samples maybe due to poor amplification or someone other reason. This can also be done simply by mixing the two above formats.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="fu">cat</span> exampleSampleNamesMixed.tab.txt</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="ex">SeekDeep</span> makeSampleDirectories --file exampleSampleNamesMixed.tab.txt --dout filesForProcessClusters</a></code></pre></div>
+</section>
+</section>
+<section id="output-directory-name" class="level1">
+<h1>Output directory name</h1>
+<p><a href="#TOC">back to top</a><br />
+The output directory will be what is given by the <code>-dout</code> flag. This will never overwrite an existing directory. The <code>-dout</code> flag also will interpret the word TODAY in all caps to mean to insert the current date and time instead.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="ex">SeekDeep</span> makeSampleDirectories --file exampleSampleNames.tab.txt --dout filesForProcessClusters_TODAY</a></code></pre></div>
+</section>
+<section id="output-files" class="level1">
+<h1>Output files</h1>
+<p><a href="#TOC">back to top</a><br />
+A master directory will be built using the name given by <code>-dout</code>. In this directory will be a directory tree that is need by <a href="processClusters_usage.html">SeekDeep processClusters</a> where there is a top directory containing directories for the samples in the analysis and each sample directory contains all replicate directories for that sample.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="ex">SeekDeep</span> makeSampleDirectories --file exampleSampleNames.tab.txt --dout filesForProcessClusters_TODAY</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="bu">cd</span> filesForProcessClusters_2015-06-14_12.22</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="ex">tree</span></a></code></pre></div>
+<section id="location-file-for-qluster" class="level2">
+<h2>Location file for qluster</h2>
+<p>Another directory, called locationByIndex, will contain a file for intended use with <a href="qluster_usage.html">SeekDeep qluster</a> to help direct output to this directory. This is done by giving these files to qluster using the <code>-additionalOut</code> flag with qluster, see <a href="qluster_usage.html#additional-alternative-directory-output">here</a> for details on this flag. The idea here is each input sequence file will contain mids and once the files have been extracted by <a href="extractor_usage.html">SeekDeep extractor</a> will be in separate files. The above example had two seq input files. When running qluster on the first file you give the location file for that file.<br />
+Here are the files from the above example</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="ex">SeekDeep</span> makeSampleDirectories --file exampleSampleNames.tab.txt --dout filesForProcessClusters_TODAY</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="fu">ls</span> filesForProcessClusters_2015-06-14_12.22/locationByIndex</a></code></pre></div>
+<p>Each file contains two columns, the first is the MID name and the second is the location where the output of qluster should go for the clustering of that MID.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="ex">SeekDeep</span> makeSampleDirectories --file exampleSampleNames.tab.txt --dout filesForProcessClusters_TODAY</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="fu">cat</span> filesForProcessClusters_2015-06-14_12.22/locationByIndex/1.tab.txt</a></code></pre></div>
+<p>Now when running qluster on files on the results from the extraction of the input files give the appropriate location file. Extraction being done with the following file</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="fu">cat</span> pfama1_ids.tab.txt</a></code></pre></div>
+<pre><code>gene    forward reverse
+PFAMA1  CAGGGAAATGTCCAGTATT CTTGAACATAAAGTCAATTC
+id  barcode
+MID01   ACGAGTGCGT
+MID02   ACGCTCGACA
+MID03   AGACGCACTC
+MID04   AGCACTGTAG
+MID05   ATCAGACACG
+MID06   ATATCGCGAG
+MID07   CGTGTCTCTA
+...
+...</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="ex">SeekDeep</span> makeSampleDirectories --file exampleSampleNames.tab.txt --dout filesForProcessClusters</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="ex">SeekDeep</span> extractor --fastq input1.fastq --id ids.txt --dout extraction1</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="bu">cd</span> extraction1</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="ex">SeekDeep</span> qluster --fastq PFAMA1MID01.fastq --par pars.tab.txt --additionalOut ../filesForProcessClusters/locationByIndex/1.tab.txt</a>
+<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="ex">...</span></a>
+<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="bu">cd</span> ..</a>
+<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="ex">SeekDeep</span> extractor --fastq input2.fastq --id ids.txt --dout extraction2</a>
+<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="bu">cd</span> extraction2</a>
+<a class="sourceLine" id="cb17-9" data-line-number="9"><span class="ex">SeekDeep</span> qluster --fastq PFAMA1MID01.fastq --par pars.tab.txt --additionalOut ../filesForProcessClusters/locationByIndex/2.tab.txt</a>
+<a class="sourceLine" id="cb17-10" data-line-number="10"><span class="ex">...</span></a>
+<a class="sourceLine" id="cb17-11" data-line-number="11"><span class="co">#now after running qluster on all the files from extraction things are already ready for processClusters</span></a>
+<a class="sourceLine" id="cb17-12" data-line-number="12"><span class="bu">cd</span> ../filesForProcessClusters</a>
+<a class="sourceLine" id="cb17-13" data-line-number="13"><span class="ex">SeekDeep</span> processClusters --fastq output.fastq --par pars.txt</a></code></pre></div>
+</section>
+</section>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

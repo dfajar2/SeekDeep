@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Nicholas Hathaway" />
+
+
+<title>Analyzing Paired End Reads</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">SeekDeep</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-sitemap"></span>
+     
+    Installing
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="installingSeekDeep_Mac.html">
+        <span class="fa fa-apple"></span>
+         
+        Mac OS
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Ubuntu.html">
+        <span class="fa fa-linux"></span>
+         
+        Ubuntu
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Windows.html">
+        <span class="fa fa-windows"></span>
+         
+        Windows
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_vagrant.html">Vagrant/virtual image (any system)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-code"></span>
+     
+    Code
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://github.com/bailey-lab/SeekDeep">
+        <span class="fa fa-github"></span>
+         
+        Github
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-wrench"></span>
+     
+    Usages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Pipeline</li>
+    <li>
+      <a href="extractor_usage.html">extractor/extractorPairedEnd</a>
+    </li>
+    <li>
+      <a href="makeSampleDirectories_usage.html">makeSampleDirectories</a>
+    </li>
+    <li>
+      <a href="qluster_usage.html">qluster</a>
+    </li>
+    <li>
+      <a href="processClusters_usage.html">processClusters</a>
+    </li>
+    <li>
+      <a href="popClusteringViewer_usage.html">popClusteringViewer</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Pipeline Wrapper</li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Utilities</li>
+    <li>
+      <a href="genTargetInfoFromGenomes_usage.html">genTargetInfoFromGenomes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-terminal"></span>
+     
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Single End (454/IonTorrent/Stitched Illumina)</li>
+    <li>
+      <a href="tutorial_IonTorrent_MIDs.html">Ion Torrent with MIDs</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Illumina Paired End</li>
+    <li>
+      <a href="tutorial_PairedEnd_noMIDs.html">Paired End No MIDs</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Misc Info
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="illumina_paired_info.html">Illumina Paired End Info</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Analyzing Paired End Reads</h1>
+<h4 class="author"><em>Nicholas Hathaway</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#id-file-and-samples-names-file">ID file and samples names file</a></li>
+<li><a href="#sample-names-file-to-input-data-files">Sample names file to input data files</a><ul>
+<li><a href="#determing-mate-files">Determing mate files</a></li>
+<li><a href="#optional-adding-meta-data-to-sample-info">Optional Adding meta data to sample info</a></li>
+<li><a href="#optional-supplying-expected-length-cut-offs">Optional Supplying expected length cut offs</a></li>
+</ul></li>
+<li><a href="#initial-setup">Initial Setup</a><ul>
+<li><a href="#optional">Optional</a><ul>
+<li><a href="#seekdeep-gentargetinfofromgenomes">SeekDeep genTargetInfoFromGenomes</a></li>
+</ul></li>
+<li><a href="#required-options">Required options</a></li>
+<li><a href="#optional-options">Optional options</a></li>
+<li><a href="#output">Output</a></li>
+</ul></li>
+<li><a href="#seekdeep-setuptarampanalysis">SeekDeep setupTarAmpAnalysis</a><ul>
+<li><a href="#required-options-1">Required options</a></li>
+<li><a href="#optional-arguments">Optional arguments</a></li>
+<li><a href="#passing-on-additional-arguments-to-the-default-arguments-of-the-3-main-sub-commands">Passing on additional arguments to the default arguments of the 3 main sub-commands</a></li>
+<li><a href="#overlapstatusfnp-file-set-up">overlapStatusFnp File Set up</a></li>
+</ul></li>
+<li><a href="#running-tutorial-example-data">Running Tutorial example data</a><ul>
+<li><a href="#reps">Reps</a></li>
+<li><a href="#sing">Sing</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p>To start analysis of paired end Illumina sequence targeted amplicon data you need to create several files describing your data input and the raw sequences files which should be de-multiplexed on the Illumina barcodes already and are in a directory and gzipped. This raw directory will not be modified in any way. At most you will need two input info files and a directory of your de-multiplexed reads.</p>
+<ul>
+<li><strong>id file</strong> - The id file should contain your primer pairs (forward and reverse primers) and the corresponding names for the targets.<br />
+</li>
+<li><strong>samples names file</strong> - This file should have at least three columns, the first being the target name, the second column is the name for your samples, and the third and on are names corresponding to your input data files that go with that sample file.<br />
+</li>
+<li><strong>raw data files</strong> - All of your raw data should be in one directory and all files that end with .fastq.gz will be considered, see below for how names in the samples names file should correspond to your data files.</li>
+</ul>
+<section id="id-file-and-samples-names-file" class="level1">
+<h1>ID file and samples names file</h1>
+<p>Your id file should have all the targets you have in your data files which could be just one target. The samples names file should then have your sample names which should be entered for every target they have and have the corresponding data file names as well. Avoid using “.” or “_&quot; in sample names as this has the potential to mess up down stream analysis.</p>
+<figure>
+<img src="images/id_sample_files.jpg" alt="Id file agreement with sample names file" /><figcaption>Id file agreement with sample names file</figcaption>
+</figure>
+</section>
+<section id="sample-names-file-to-input-data-files" class="level1">
+<h1>Sample names file to input data files</h1>
+<p>The third and beyond columns in the samples names file should correspond to your input data files as described below. Your input files can be separated by lanes or just one file per mate file depending on how you got your data from the Illumina machine. The names in these columns should match to the corresponding data files up to the first underscore in the raw data file. This is done because of the way the Illumina machine normally outputs data and names the files.</p>
+<figure>
+<img src="images/raw_data_to_sampleFiles.jpg" alt="Samples name file agreement with input data" /><figcaption>Samples name file agreement with input data</figcaption>
+</figure>
+<section id="determing-mate-files" class="level2">
+<h2>Determing mate files</h2>
+<p>Determining the mate files is done by search for either R1/R2 or 1/2 isolated between _ or before the file extension.</p>
+<figure>
+<img src="images/determining_mate_files.jpg" alt="Determing mate files" /><figcaption>Determing mate files</figcaption>
+</figure>
+</section>
+<section id="optional-adding-meta-data-to-sample-info" class="level2">
+<h2>Optional Adding meta data to sample info</h2>
+<p>If you have meta data you would like to associate with your samples you can give a file adding the info. This info will be given with the final results from the SeekDeep pipeline to make downstream analysis easier by having it already in the tables. SeekDeep will also organize data separated out by meta data to ease viewing of the data by group. See the below diagram as how this meta data should be matched up with the previous files described in this section. The name of the meta data file is given to the <code>--groupMeta</code> argument.</p>
+<figure>
+<img src="images/group_meta_data.jpg" alt="Group Meta Data" /><figcaption>Group Meta Data</figcaption>
+</figure>
+</section>
+<section id="optional-supplying-expected-length-cut-offs" class="level2">
+<h2>Optional Supplying expected length cut offs</h2>
+<p>By default the extractor will extract sequences and supplying filtering by throwing out any sequences that are more than 20% away from the median length of the input sequences. You can supply a different length cut off specific for each target with an additional file, see below for further details. The name of the length cutoff file is given to the <code>--lenCutOffs</code> argument.<br />
+<img src="images/len_cut_off.jpg" alt="Supply specific length cut offs" /></p>
+</section>
+</section>
+<section id="initial-setup" class="level1">
+<h1>Initial Setup</h1>
+<p><a href="#TOC">back to top</a><br />
+To see initial setup down you can download the tutorial data with the following command.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="fu">wget</span> http://baileylab.umassmed.edu/data/SeekDeepTutorialData/ver2_6_0/MultipleAmplicon_Illumina_Tutorial_Materials.tar.gz</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="fu">tar</span> -zxvf MultipleAmplicon_Illumina_Tutorial_Materials.tar.gz </a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="bu">cd</span> MultipleAmplicon_Illumina_Tutorial_Materials/</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"> </a></code></pre></div>
+<section id="optional" class="level2">
+<h2>Optional</h2>
+<p><a href="#TOC">back to top</a></p>
+<section id="seekdeep-gentargetinfofromgenomes" class="level3">
+<h3>SeekDeep genTargetInfoFromGenomes</h3>
+<p>SeekDeep comes equipped with a helper function (<code>SeekDeep genTargetInfoFromGenomes</code>) to provide some of the files used by the program. It is not required that you use this helper function as all of these files can be created by hand but this helper function can help ease the creation of these files. <code>SeekDeep genTargetInfoFromGenomes</code> needs bowtie2 and samtools to be installed and requires a directory of genomes (at least 1). <code>SeekDeep genTargetInfoFromGenomes</code> takes a primer ID file that is required by <code>SeekDeep extractor</code> and extracts the sequences expected with the primers from the genomes. Below I download just the 3D7 reference genome for <em>Plasmodium falciparum</em> but it can be ran on several genomes at once. This simply done by using bowtie2 to find possible locations of the forward and reverse primers (for which degenerative bases are allowed) and then extracts the sequence found in between these hits.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="fu">wget</span> http://baileylab.umassmed.edu/data/plasmodiumData/pfgenomes.tar.gz </a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="fu">tar</span> -zxvf pfgenomes.tar.gz</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="ex">SeekDeep</span> genTargetInfoFromGenomes --genomeDir pfgenomes/genomes/ --primers idFile.tab.txt --numThreads 7 --pairedEndLength 250 --dout extractedRefSeqs --lenCutOffSizeExpand 50 </a></code></pre></div>
+</section>
+</section>
+<section id="required-options" class="level2">
+<h2>Required options</h2>
+<ul>
+<li><strong>--genomeDir</strong> - A directory of genomes that must end in .fasta (the .fasta extension is used to determine which files in this directory to treat as genomes) which will be automatically bowtie2 indexed if they aren’t already<br />
+</li>
+<li><strong>--primers</strong> - The ID file containing the primers used<br />
+</li>
+<li><strong>--pairedEndLength</strong> - The length of the input sequencing length for paired end analysis (e.g. 250 for 2x250)</li>
+</ul>
+</section>
+<section id="optional-options" class="level2">
+<h2>Optional options</h2>
+<ul>
+<li><strong>--numThreads</strong> - The number of threads/CPUs to use in parallel<br />
+</li>
+<li><strong>--dout</strong> - A name of an output directory<br />
+</li>
+<li><strong>--lenCutOffSizeExpand</strong> - By default the max and min sizes are set to the +/-20 off of the max and min sizes of the extracted seqs, since msp1 here has large length variation, this has been increased to +/- 50 though this could also be solved by using more than just the Pf3D7 genome and using more refs.<br />
+</li>
+<li><strong>--sizeLimit</strong> - Since by default this program is used for short amplicon analysis there is an default size limit for the extraction length (1000), meaning possible extractions longer than 1000 bp will not be extracted, which can be changed with this flag.</li>
+</ul>
+</section>
+<section id="output" class="level2">
+<h2>Output</h2>
+<p>All of the output will be in one directory. Within this directory there will be a directory for each target given in the ID file that contains several useful files including:</p>
+<ol type="1">
+<li><strong>extractionCounts.tab.txt</strong> - A file giving how many times each primer hit and the number of extractions per genome<br />
+</li>
+<li><strong>forwardPrimer.fasta</strong> - The forward primer used, if it contained degenerative bases this file will be every possible primer<br />
+</li>
+<li><strong>reversePrimer.fasta</strong> - The reverse primer used, if it contained degenerative bases this file will be every possible primer</li>
+<li><strong>genomeLocations</strong> - The genomic locations of the extractions<br />
+</li>
+<li><strong>[TARGET_NAME].fasta</strong> - A fasta file of the extractions<br />
+</li>
+<li>**[TARGET_NAME]_primersRemoved.fasta** - A fasta file of the extractions with the primers removed</li>
+</ol>
+<p>There will also be a directory named <strong>forSeekDeep</strong> which will contain three files useful for SeekDeep runs:</p>
+<ol type="1">
+<li><strong>lenCutOffs.txt</strong> - A file giving estimated length cut off by using the max and min lengths of the extracted reference sequences<br />
+</li>
+<li><strong>overlapStatuses.txt</strong> - A file indicating the overlap possible given the paired end sequencing length and the length of the reference sequences, required by <code>SeekDeep extractorPairedEnd</code>, see <a href="extractor_usage.html">SeekDeep extractor</a> and <a href="illumina_paired_info.html">Illumina Paired Info Page</a><br />
+</li>
+<li><strong>refSeqs</strong> - A directory of the extracted reference sequences with a fasta file for each target, this directory can be given to <code>SeekDeep extractor</code> to help filter off artifact/contamination</li>
+</ol>
+</section>
+</section>
+<section id="seekdeep-setuptarampanalysis" class="level1">
+<h1>SeekDeep setupTarAmpAnalysis</h1>
+<p><a href="#TOC">back to top</a><br />
+To setup the analysis use the <code>SeekDeep setupTarAmpAnalysis</code> command, see the required and optional commands below.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="ex">SeekDeep</span> setupTarAmpAnalysis --samples sampleNames.tab.txt --outDir analysis --inputDir fastq --idFile ../idFile.tab.txt --groupMeta ../groupNames.tab.txt --lenCutOffs ../extractedRefSeqs/forSeekDeep/lenCutOffs.txt --overlapStatusFnp ../extractedRefSeqs/forSeekDeep/overlapStatuses.txt --refSeqsDir ../extractedRefSeqs/forSeekDeep/refSeqs/ </a></code></pre></div>
+<section id="required-options-1" class="level2">
+<h2>Required options</h2>
+<ul>
+<li><strong>--samples</strong> - The file with samples names and raw data file names as explained above<br />
+</li>
+<li><strong>--outDir</strong> - An output directory where analysis will be set up<br />
+</li>
+<li><strong>--inputDir</strong> - The input raw data directory<br />
+</li>
+<li><strong>--idFile</strong> - The id file explained above<br />
+</li>
+<li><strong>--overlapStatusFnp</strong> - The file giving how the mates for each target overlap</li>
+</ul>
+</section>
+<section id="optional-arguments" class="level2">
+<h2>Optional arguments</h2>
+<ul>
+<li><strong>--lenCutOffs</strong> - A file with optional max and min lengths for the targets in the dataset<br />
+</li>
+<li><strong>--groupMeta</strong> - A file with meta data to associate with the input samples, see above to see how this file should be associated with the other input files<br />
+</li>
+<li><strong>--numThreads</strong> - The number of CPUs to be utilized to speed up analysis<br />
+</li>
+<li><strong>--refSeqsDir</strong> - A directory of reference sequences to be utilized for filtering out artifacts and possible contamination, needs to have a fasta named with the name of the targets in the ID file</li>
+</ul>
+</section>
+<section id="passing-on-additional-arguments-to-the-default-arguments-of-the-3-main-sub-commands" class="level2">
+<h2>Passing on additional arguments to the default arguments of the 3 main sub-commands</h2>
+<p>Default scripts are created for each of the downstream analysis commands and additional arguments can be passed onto these scripts via the following three commands.<br />
+* <strong>--extraExtractorCmds</strong> - Any extra commands to append to the default ones for the extractor step, should be given in quotes e.g. <code>--extraExtractorCmds=&quot;--checkRevComplementForPrimers --qualWindow 50,5,18&quot;</code><br />
+* <strong>--extraQlusterCmds</strong> - Any extra commands to append to the default ones for the qluster step, should be given in quotes<br />
+* <strong>--extraProcessClusterCmds</strong> - Any extra commands to append to the default ones for the processClusters step, should be given in quotes</p>
+</section>
+<section id="overlapstatusfnp-file-set-up" class="level2">
+<h2>overlapStatusFnp File Set up</h2>
+<p>See <a href="extractor_usage.html">SeekDeep extractor</a> and <a href="illumina_paired_info.html">Illumina Paired Info Page</a> for more information on overlap status input and below is a diagram of how this file should be set up and compared to the input id file.</p>
+<p><img src="images/id_overlap_statuses.jpg" /></p>
+<p>This will extract the raw data from the input directory and it will also stitch together the mate reads, a report of how the stitching went will be in the output directory in a directory called reports. Also id files will also be copied into the directory as well. Also default scripts will be created that will run the rest of the analysis with defaults for Illumina data, all of which can be ran by the file, runAnalysis.sh in the output directory.</p>
+<p><strong>./runAnalysis.sh</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">#!/usr/bin/env bash</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">##run all parts of the pipeline</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="va">numThreads=</span>1</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="kw">if [[</span> <span class="va">$#</span> <span class="ot">-eq</span> 1<span class="kw"> ]]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">    <span class="va">numThreads=$1</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="ex">SeekDeep</span> runMultipleCommands --cmdFile extractorCmds.txt      --numThreads <span class="va">$numThreads</span> --raw</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="ex">SeekDeep</span> runMultipleCommands --cmdFile qlusterCmds.txt        --numThreads <span class="va">$numThreads</span> --raw</a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="ex">SeekDeep</span> runMultipleCommands --cmdFile processClusterCmds.txt --numThreads <span class="va">$numThreads</span> --raw</a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="ex">SeekDeep</span> runMultipleCommands --cmdFile genConfigCmds.txt      --numThreads <span class="va">$numThreads</span> --raw</a></code></pre></div>
+<p>The files extractorCmds.txt, qlusterCmds.txt, processClusterCmds.txt, and genConfigCmds.txt contain command line commands on each line to run the analysis. The <code>SeekDeep runMultipleCommands</code> is command in <code>SeekDeep</code> that can take in such a file and run them in parallel speeding up analysis.</p>
+<p>See below to see how these command files match up to the pipeline.</p>
+<figure>
+<img src="images/pipeline.jpg" alt="SeekDeep Pipeline" /><figcaption>SeekDeep Pipeline</figcaption>
+</figure>
+<p>And then to start the server to see the data interactively run the file <code>startServerCmd.sh</code> after running the above command files. <strong>./startServerCmd.sh</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">#!/usr/bin/env bash</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co"># Will automatically run the server in the background and with nohup so it will keep running</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw">if [[</span> <span class="va">$#</span> <span class="ot">-ne</span> 2<span class="kw"> ]]</span> <span class="kw">&amp;&amp; [[</span> <span class="va">$#</span> <span class="ot">-ne</span> 0<span class="kw"> ]]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">    <span class="bu">echo</span> <span class="st">&quot;Illegal number of parameters, needs either 0 or 2 argument, if 2 args 1) port number to server on 2) the name to serve on&quot;</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">    <span class="bu">echo</span> <span class="st">&quot;Examples&quot;</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">    <span class="bu">echo</span> <span class="st">&quot;./startServerCmd.sh&quot;</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">    <span class="bu">echo</span> <span class="st">&quot;./startServerCmd.sh 9882 pcv2&quot;</span>    </a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">    <span class="bu">exit</span>    </a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="kw">if [[</span> <span class="va">$#</span> <span class="ot">-eq</span> 2<span class="kw"> ]]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">    <span class="fu">nohup</span> SeekDeep popClusteringViewer --verbose --configDir <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>/serverConfigs --port <span class="va">$1</span> --name <span class="va">$2</span> <span class="kw">&amp;</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="kw">else</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14">    <span class="fu">nohup</span> SeekDeep popClusteringViewer --verbose --configDir <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>/serverConfigs <span class="kw">&amp;</span> </a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="kw">fi</span></a></code></pre></div>
+</section>
+</section>
+<section id="running-tutorial-example-data" class="level1">
+<h1>Running Tutorial example data</h1>
+<p>The tutorial data is a made up experiment where an investigation is being done for a drug resistant parasite from 16 patients from two different regions, 8 from 1 region and the other 8 from a second region. Each “patient” has had a sample taken at time point 0 when they received drug treatment and then 3 additional samples were taken at time points 24hrs, 48hrs, and 72hrs for a total of 4 samples per patient. Meta data is provided for each patient so results per region, per patient, and per time point can be viewed separately.</p>
+<p>A theoretical display of the regions for the experiment explained above.<br />
+<img src="images/Regions.jpg" alt="Regions" /></p>
+<p>The samples taken from the patients<br />
+<img src="images/Sampling.jpg" alt="Sampling" /></p>
+<p>This tutorial contains two datasets. One dataset is if you ran your data with 2 PCR replicates per sample and the other is if you ran your data with just 1 PCR reaction per sample but both are from “experiment” above. The commands for both the single PCR reaction experiment and the PCR replicates set up can be ran the same extract way. The only difference between the two of them is the creation of the <code>sampleNames.tab.txt</code> file, look at both of them to see the difference and how this relates to the raw data directory <code>fastq</code>.</p>
+<section id="reps" class="level2">
+<h2>Reps</h2>
+<p><a href="#TOC">back to top</a></p>
+<p>In the tutorial download you will find two directories. One called reps which has the above experiment as if you had done all samples with two PCR replicates and one that if you only have a single PCR reaction per sample. Both directories contain a folder called <code>fastq</code> that has the raw input data in zipped fastq files and a sampleNames.tab.txt that describes the relationship between the raw data and the samples in the experimental as described above.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="fu">wget</span> -q http://baileylab.umassmed.edu/data/SeekDeepTutorialData/ver2_6_0/MultipleAmplicon_Illumina_Tutorial_Materials.tar.gz</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="fu">tar</span> -zxf MultipleAmplicon_Illumina_Tutorial_Materials.tar.gz </a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="bu">cd</span> MultipleAmplicon_Illumina_Tutorial_Materials/</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="bu">cd</span> reps</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="fu">ls</span> </a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="fu">ls</span> fastq/ <span class="kw">|</span> <span class="fu">head</span> </a></code></pre></div>
+<pre><code>P01-TP0-Rep1_S1_L001_R1.fastq.gz
+P01-TP0-Rep1_S1_L001_R2.fastq.gz
+P01-TP0-Rep2_S2_L001_R1.fastq.gz
+P01-TP0-Rep2_S2_L001_R2.fastq.gz
+P01-TP24-Rep1_S3_L001_R1.fastq.gz
+P01-TP24-Rep1_S3_L001_R2.fastq.gz
+P01-TP24-Rep2_S4_L001_R1.fastq.gz
+P01-TP24-Rep2_S4_L001_R2.fastq.gz
+P01-TP48-Rep1_S5_L001_R1.fastq.gz
+P01-TP48-Rep1_S5_L001_R2.fastq.gz</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="fu">head</span> sampleNames.tab.txt</a></code></pre></div>
+<pre><code>pfama1  P01-TP0 P01-TP0-Rep1    P01-TP0-Rep2
+pfama1  P01-TP24    P01-TP24-Rep1   P01-TP24-Rep2
+pfama1  P01-TP48    P01-TP48-Rep1   P01-TP48-Rep2
+pfama1  P01-TP72    P01-TP72-Rep1   P01-TP72-Rep2
+pfama1  P02-TP0 P02-TP0-Rep1    P02-TP0-Rep2
+pfama1  P02-TP24    P02-TP24-Rep1   P02-TP24-Rep2
+pfama1  P02-TP48    P02-TP48-Rep1   P02-TP48-Rep2
+pfama1  P02-TP72    P02-TP72-Rep1   P02-TP72-Rep2
+pfama1  P03-TP0 P03-TP0-Rep1    P03-TP0-Rep2
+pfama1  P03-TP24    P03-TP24-Rep1   P03-TP24-Rep2</code></pre>
+<p>And in the top directory we have the id file with the primers in it for the three targets in this experiment, pfama1, pfcsp, and pfmsp1. Which can be used for either either the replicate or single reaction runs. See above see a description of this file</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="fu">cat</span> ../idFile.tab.txt</a></code></pre></div>
+<pre><code>target  forward reverse
+pfmsp1  GAATATTAAATAATAAATCTAATGGATCACATG   CAGCAAGCGAAACAACTGAAGATG
+pfama1  CAATATTTAAAAGATGGAGGTTTTGCT ATCTTCACAATTTCCATCGACCCAT
+pfcsp   AAACAATCAAGGTAATGGACAAGG    ATAAATATTGTACAACTCAAACTAAGATGTGTTC</code></pre>
+<p>And we have the additional file with the groupMeta data in it which can also be used for either the replicate or single reaction runs. See above to get a description of this file.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="fu">head</span> ../groupNames.tab.txt</a></code></pre></div>
+<pre><code>Sample  TimePoint   Region  Patient
+P01-TP0 TP0 Region1 P01
+P01-TP24    TP24    Region1 P01
+P01-TP48    TP48    Region1 P01
+P01-TP72    TP72    Region1 P01
+P02-TP0 TP0 Region1 P02
+P02-TP24    TP24    Region1 P02
+P02-TP48    TP48    Region1 P02
+P02-TP72    TP72    Region1 P02
+P03-TP0 TP0 Region1 P03</code></pre>
+<p><code>SeekDeep setupTarAmpAnalysis</code> and the rest of the analysis of the can be ran like below for the replicate run.</p>
+<p>We are running with <code>--noQualTrim</code> because this data set was created from simulated data and the simulator artificially simulates too many bases with qualities of 2 and so trimming at the first occurrence of a qual of 2 would cause too much data lost.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="bu">cd</span> MultipleAmplicon_Illumina_Tutorial_Materials/reps</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="ex">SeekDeep</span> setupTarAmpAnalysis --samples sampleNames.tab.txt --outDir analysis --inputDir fastq --idFile ../idFile.tab.txt --groupMeta ../groupNames.tab.txt --noQualTrim --numThreads 7 </a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="bu">cd</span> analysis</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#run with 7 threads</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="ex">./runAnalysis.sh</span> 7 </a>
+<a class="sourceLine" id="cb15-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co">#run server with name pcv and local port 9881</span></a>
+<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="ex">./startServerCmd.sh</span></a>
+<a class="sourceLine" id="cb15-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb15-12" data-line-number="12"><span class="co">#if address is taken choose another, say port 9882 with name pcv2</span></a>
+<a class="sourceLine" id="cb15-13" data-line-number="13"><span class="ex">./startServerCmd.sh</span> 9882 pcv2</a></code></pre></div>
+</section>
+<section id="sing" class="level2">
+<h2>Sing</h2>
+<p><a href="#TOC">back to top</a><br />
+The sing could be ran the same exact way, but below is running each part of the analysis rather than just using <code>./runAnalysis.sh</code></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="bu">cd</span> MultipleAmplicon_Illumina_Tutorial_Materials</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="bu">cd</span> sing</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="ex">SeekDeep</span> setupTarAmpAnalysis --samples sampleNames.tab.txt --outDir analysis --inputDir fastq --idFile ../idFile.tab.txt --groupMeta ../groupNames.tab.txt --noQualTrim --numThreads 7 </a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="bu">cd</span> analysis</a>
+<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#run with 7 threads</span></a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="ex">SeekDeep</span> runMultipleCommands --cmdFile extractorCmds.txt      --numThreads 7 --raw</a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="ex">SeekDeep</span> runMultipleCommands --cmdFile qlusterCmds.txt        --numThreads 7 --raw</a>
+<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="ex">SeekDeep</span> runMultipleCommands --cmdFile processClusterCmds.txt --numThreads 7 --raw</a>
+<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="ex">SeekDeep</span> runMultipleCommands --cmdFile genConfigCmds.txt      --numThreads 7 --raw</a>
+<a class="sourceLine" id="cb16-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb16-13" data-line-number="13"><span class="co">#run server with name pcv and local port 9881</span></a>
+<a class="sourceLine" id="cb16-14" data-line-number="14"><span class="fu">nohup</span> SeekDeep popClusteringViewer --verbose --configDir <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>/serverConfigs <span class="kw">&amp;</span></a>
+<a class="sourceLine" id="cb16-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb16-16" data-line-number="16"><span class="co">#if address is taken choose another, say port 9882 with name pcv2</span></a>
+<a class="sourceLine" id="cb16-17" data-line-number="17"><span class="fu">nohup</span> SeekDeep popClusteringViewer --verbose --configDir <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>/serverConfigs --port 9882 --name pcv2 <span class="kw">&amp;</span></a></code></pre></div>
+<p>After running <code>SeekDeep runMultipleCommands</code> you see how the set went by looking at the generated log file, by default named the name of the input file plus log but can also be specified by using the <code>--logFile</code> flag. This will be a json file with things like messages or errors and run time as well.</p>
+<p>Check out <a href="http://baileylab.umassmed.edu/SeekDeepExample2" class="uri">http://baileylab.umassmed.edu/SeekDeepExample2</a> to see an example of the server hosting of the replicate tutorial data.</p>
+</section>
+</section>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Nicholas Hathaway" />
+
+
+<title>SeekDeep qluster Usage</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="commonStyle.css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">SeekDeep</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-sitemap"></span>
+     
+    Installing
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="installingSeekDeep_Mac.html">
+        <span class="fa fa-apple"></span>
+         
+        Mac OS
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Ubuntu.html">
+        <span class="fa fa-linux"></span>
+         
+        Ubuntu
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Windows.html">
+        <span class="fa fa-windows"></span>
+         
+        Windows
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_vagrant.html">Vagrant/virtual image (any system)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-code"></span>
+     
+    Code
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://github.com/bailey-lab/SeekDeep">
+        <span class="fa fa-github"></span>
+         
+        Github
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-wrench"></span>
+     
+    Usages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Pipeline</li>
+    <li>
+      <a href="extractor_usage.html">extractor/extractorPairedEnd</a>
+    </li>
+    <li>
+      <a href="makeSampleDirectories_usage.html">makeSampleDirectories</a>
+    </li>
+    <li>
+      <a href="qluster_usage.html">qluster</a>
+    </li>
+    <li>
+      <a href="processClusters_usage.html">processClusters</a>
+    </li>
+    <li>
+      <a href="popClusteringViewer_usage.html">popClusteringViewer</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Pipeline Wrapper</li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Utilities</li>
+    <li>
+      <a href="genTargetInfoFromGenomes_usage.html">genTargetInfoFromGenomes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-terminal"></span>
+     
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Single End (454/IonTorrent/Stitched Illumina)</li>
+    <li>
+      <a href="tutorial_IonTorrent_MIDs.html">Ion Torrent with MIDs</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Illumina Paired End</li>
+    <li>
+      <a href="tutorial_PairedEnd_noMIDs.html">Paired End No MIDs</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Misc Info
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="illumina_paired_info.html">Illumina Paired End Info</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">SeekDeep qluster Usage</h1>
+<h4 class="author"><em>Nicholas Hathaway</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#qlusters-purpose">qluster’s Purpose</a></li>
+<li><a href="#getting-usage-command-line">Getting usage command line</a></li>
+<li><a href="#qluster-method-overview">qluster Method Overview</a><ul>
+<li><a href="#core-idea">Core Idea</a></li>
+<li><a href="#method-flow">Method flow</a></li>
+<li><a href="#otu-percent-id-clustering">OTU percent id clustering</a></li>
+</ul></li>
+<li><a href="#the-reasoning-behind-qluster">The reasoning behind qluster</a></li>
+<li><a href="#output-files">Output files</a></li>
+<li><a href="#examples">Examples</a><ul>
+<li><a href="#general-usage">General Usage</a><ul>
+<li><a href="#input-formats">Input Formats</a></li>
+</ul></li>
+<li><a href="#and-ion-torrent">454 and Ion torrent</a><ul>
+<li><a href="#indels-in-homopolymers">Indels in homopolymers</a></li>
+</ul></li>
+<li><a href="#illumina">Illumina</a></li>
+<li><a href="#otu-clustering">Otu Clustering</a></li>
+<li><a href="#allowing-high-quality-differences">Allowing high quality differences</a></li>
+<li><a href="#quality-to-categorize-errors">Quality to categorize errors</a></li>
+<li><a href="#gap-scoring">Gap scoring</a></li>
+<li><a href="#additional-options">Additional options</a><ul>
+<li><a href="#changing-out-directory-name">Changing out directory name</a></li>
+<li><a href="#kmer-frequency-cut-off-level">Kmer Frequency Cut off level</a></li>
+<li><a href="#caching-alignments">Caching alignments</a></li>
+<li><a href="#marking-possible-chimeric-sequence">marking possible chimeric sequence</a></li>
+<li><a href="#additional-alternative-directory-output">additional alternative directory output</a></li>
+<li><a href="#parameters-for-extra-speed-up">Parameters for extra speed up</a></li>
+</ul></li>
+<li><a href="#converging-on-iteration">Converging on Iteration</a></li>
+</ul></li>
+</ul>
+</div>
+
+<section id="qlusters-purpose" class="level1 purposeDiv">
+<h1>qluster’s Purpose</h1>
+<p><a href="#TOC">back to top</a><br />
+The main purpose of qluster is to take de-multiplex data/single sample data and to create final haplotypes with relative abundances by clustering reads by collapsing on specific errors. The program requires at most two options: input sequence files either in fastq(<code>--fastq</code>), fasta/qual(<code>--fasta</code>,<code>--qual</code>), or fastq format (<code>--fasta</code>) and a parameters files (<code>--par</code>) that determine the extent of the clustering of the reads. Several default parameter files are provided with the source code of SeekDeep.</p>
+</section>
+<section id="getting-usage-command-line" class="level1">
+<h1>Getting usage command line</h1>
+<p><a href="#TOC">back to top</a><br />
+Just typing the name of the program will give a help message on running the program</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster </a></code></pre></div>
+<pre><code>Did not find a recognizable read in option
+Options include: --fasta,--fastagz,--fastq,--fastqgz
+Command line arguments
+OptionNum   Flag    Option  
+Need to have --par see SeekDeep qluster --help for more details
+...
+...</code></pre>
+<p>Also calling <code>-help</code> will do the same</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --help </a></code></pre></div>
+<p>Also all flags in SeekDeep are case insensitive and so all the following would have the same results</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --help </a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="ex">SeekDeep</span> qluster --HELP</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="ex">SeekDeep</span> qluster --HeLP</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="ex">SeekDeep</span> qluster --HeLp</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="ex">SeekDeep</span> QLUSTER --HeLP</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="ex">SeekDeep</span> qluster --HeLp</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="ex">SeekDeep</span> qlUstEr --HeLp</a></code></pre></div>
+</section>
+<section id="qluster-method-overview" class="level1">
+<h1>qluster Method Overview</h1>
+<p><a href="#TOC">back to top</a></p>
+<section id="core-idea" class="level2">
+<h2>Core Idea</h2>
+<p>At the core of qluster is iteratively clustering collections of raw reads, which from here on will be called clusters, based on user supplied error profiles. The errors that are consider in this profile are 1base indels, 2base indels, &gt;2base indels, low quality errors, high quality errors, and low kmer frequency errors. See future method for more extensive explanation of these errors than the short description that follows now. The low and high quality errors are based on per base quality scores of mismatching bases along with flanking quality scores. Low kmer errors are based on the occurrence of kmers centered on the mismatch. On each iteration a different error profile is given to allow for different amount of error to cluster reads together.</p>
+</section>
+<section id="method-flow" class="level2">
+<h2>Method flow</h2>
+<p>Input reads are read in and initial clusters are created based on a simple sequence comparison creating clusters of unique sequences. Clusters are then sorted by size and then the iterative clustering process is perform. Each iteration starts by taking the clusters at the very bottom of the list and comparing it to the most abundant clusters. Comparisons are done by doing a global alignment and counting and the categorizing the errors into the categories mentioned above. This error profile is then compared to the allowable error profile for that iteration. If the error profile passes the current profile it is then checked against the next clusters in line for any other possible matches and is then added to cluster it matches best. At the end of each iteration a consensus sequence is calculated for each clusters based on majority rules basis, clusters are then resorted by their new read numbers and the new iteration is started.</p>
+<p>#Format of parameters files The parameters file will determine what errors to cluster on and how many iterations to do. The set up of the file is that every line is another iteration. Each line should contain 8 numbers. The order of what they mean is as follows</p>
+<ul>
+<li>StopAfter - only check the top of this many reads<br />
+</li>
+<li>SizeCutOff - don’t check against clusters of this size<br />
+</li>
+<li>1baseIndels - The number of one base indels to allow<br />
+</li>
+<li>2baseIndels - The number of two base indels to allow<br />
+</li>
+<li>&gt;2baseIndels - The number of &gt;two base indels to allow<br />
+</li>
+<li>HQMismatches - The number of high quality mismatches to allow<br />
+</li>
+<li>LQMismatches - The number of low quality mismatches to allow<br />
+</li>
+<li>LKMismatches - The number of low kmer frequency mismatches to allow</li>
+</ul>
+<p>Each number is separated by a colon and the first row can be a title line if it starts with a ‘s’ below is an example of a parameters file</p>
+<pre><code>stopCheck:smallCutoff:1baseIndel:2baseIndel:&gt;2baseIndel:HQMismatches:LQMismatches:LKMismatches
+100:3:1:0:0:0:0:0
+100:3:2:0:0:0:0:1
+100:3:3:0:0:0:1:1
+100:3:4:0:0:0:2:1
+100:0:1:0:0:0:0:0
+100:0:2:0:0:0:0:1
+100:0:3:0:0:0:1:1
+100:0:4:0:0:0:2:1</code></pre>
+<p>This file indicates to do eight iterations. On the first iteration only the top 100 clusters would be checked. Clusters of size 3 will be compared against (this means that clusters of size 3 or less will still be compared to larger clusters but other clusters will not be compared to clusters of 3 or less which means they can’t be the seeds for new clusters). And clusters will only be collapsed together if they only differ by 1 one base indel. On the next iteration the number of top clusters to compare against and the cluster size that can form seeds will be the same but now clusters that differ by 2 one base indels and by 1 low kmer frequency errors. On the fourth iteration clusters of any size can now form seeds for new clusters and we are back to allowing only 1 one base indels.<br />
+Though this is not enforced in anyway this is common practice in using qluster, first allow only large clusters to form seeds slowly allowing more errors between clusters so that first solid clusters can be form. Once the number of errors willing to be allowed is reached go back to the a small amount of error and allow small clusters to form seeds so not low frequency haplotypes aren’t found.</p>
+<p>Also alternative to specifying a specific number of top clusters to check a percentage can be given instead. See example below.</p>
+<pre><code>stopCheck:smallCutoff:1baseIndel:2baseIndel:&gt;2baseIndel:HQMismatches:LQMismatches:LKMismatches
+10%:3:1:0:0:0:0:0
+100:3:2:0:0:0:0:1
+100:3:3:0:0:0:1:1
+100:3:4:0:0:0:2:1
+10%:0:1:0:0:0:0:0
+100:0:2:0:0:0:0:1
+100:0:3:0:0:0:1:1
+100:0:4:0:0:0:2:1</code></pre>
+<p>This means that in the first iteration the top 10% of reads will be checked, so if there were 2000 clusters, the top 200 would be checked. And the these formats can be mixed so the here the next iteration only the top 100 clusters would be checked no matter how many clusters there were.</p>
+</section>
+<section id="otu-percent-id-clustering" class="level2">
+<h2>OTU percent id clustering</h2>
+<p>qluster can also offer the traditional OTU percent identity clusters that is often employed by programs to cluster targeted amplicon clustering. The parameters file is similar to the previous example but there is only one column for the errors that is now percent identity.</p>
+<pre><code>stopCheck:smallCutoff:id
+100:3:.97
+100:3:.97
+100:0:.97
+100:0:.97</code></pre>
+<p>This means the program will perform four iteration while allowing clusters to collapse into each other if they differ by less than 3%. The first two columns mean the same as explained above.</p>
+</section>
+</section>
+<section id="the-reasoning-behind-qluster" class="level1">
+<h1>The reasoning behind qluster</h1>
+<p>The first parameter/method describe was created out of a need to be more precise than the non-specific OTU percent identity clustering method. In our work with Plasmodium (Malaria) we had a need to study haplotypes that differed by only one base pair but we still had to contend with sequencing and PCR errors that confound a typical targeted amplicon sequencing approach. Thus this method of collapsing only on specific types of errors was born, it allows us to perform what is essentially a percent identity clustering but be very specific where that percent identity is coming from. This allows us to collapse only small indels (which for our work in protein coding sequence are very unlikely as they would cause a frame shift) and that plague sequencing technologies like 454 and Ion Torrent and to collapse only on base mismatches that come from bases with low quality scores (something that is provided by all technologies) and on low kmer frequency mismatches which are often PCR error while preventing high quality errors from collapsing which has allowed us to find haplotypes that only differ by one base mismatch.</p>
+</section>
+<section id="output-files" class="level1">
+<h1>Output files</h1>
+<p><a href="#TOC">back to top</a></p>
+<p>An output directory will be created for all output files of qluster. The default name is the name of the input file plus the word qluster plus the current date and time when qluster was run. The name can be changed using the <code>-dout</code> flag.</p>
+<ul>
+<li><strong>output.fastq</strong> - The final consensus sequences for the clusters with a suffix of _t[NUM] where [NUM] is the number of reads associated with that cluster</li>
+<li><strong>outputInfo.tab.txt</strong> - Information on the number of reads per cluster</li>
+<li><strong>runLog_qluster.txt</strong> - Contains a time stamp for date and time command was run along with the location where the command was run from and what the command was, also contains total run time</li>
+<li><strong>clusters</strong> - A directory with a file for each final cluster containing the reads that contributed to making that cluster</li>
+<li><strong>internalSnpInfo</strong> - A directory with a file for each final clusters with frequency numbers for snps to the final consensus sequence of the reads that created that consensus. This file can be used to see if there was any over collapsing</li>
+</ul>
+</section>
+<section id="examples" class="level1">
+<h1>Examples</h1>
+<p><a href="#TOC">back to top</a></p>
+<section id="general-usage" class="level2">
+<h2>General Usage</h2>
+<p>As stated above the only thing qluster needs to run is an input file and a parameter file</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par</a></code></pre></div>
+<section id="input-formats" class="level3">
+<h3>Input Formats</h3>
+<p>Input to qluster can be fastq, fastq/qual, or just fasta (though then all mismatches will be high quality mismatches and advantage of quality scores is lost)</p>
+<section id="fastq" class="level4">
+<h4>Fastq</h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt</a></code></pre></div>
+</section>
+<section id="fastqqual" class="level4">
+<h4>Fastq/Qual</h4>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster -fasta example.fasta -qual example.fasta.qual -par par.txt</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#or if the file is named as above flag -stub can be used</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="ex">SeekDeep</span> qluster --stub example --par par.txt</a></code></pre></div>
+</section>
+<section id="fasta" class="level4">
+<h4>Fasta</h4>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fasta example.fasta --par par.txt</a></code></pre></div>
+</section>
+</section>
+</section>
+<section id="and-ion-torrent" class="level2">
+<h2>454 and Ion torrent</h2>
+<p><a href="#TOC">back to top</a></p>
+<p>With the set up of the parameters file being completely at the whim of the user and what to collapse on can be somewhat arbitrary (though just picking an OTU cut off is also arbitrary) it is somewhat challenging picking the “correct” parameters. We have analyzed several control known mixture datasets and through testing out several parameters we have found the following parameters file to work out best (all clusters above .1% were expected clusters and all expected clusters were found) for 454 data, this file is provided with the SeekDeep source code in a folder called SeekDeepParametersFile and is called <code>454_it_lkmer2</code>. You also use these parameters by not supplying the <code>--par</code> flag and using the <code>--ionTorrent</code> flag which will set this automatically</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="fu">cat</span> 454_it_lkmer2</a></code></pre></div>
+<pre><code>stopCheck:smallCutoff:1baseIndel:2baseIndel:&gt;2baseIndel:HQMismatches:LQMismatches:LKMismatches
+100:3:1:0:0:0:0:1
+100:3:2:0:0:0:0:1
+100:3:3:0:0:0:1:1
+100:3:4:0:0:0:2:1
+100:3:5:0:0:0:3:1
+100:3:6:0:0:0:4:1
+100:3:7:1:0:0:5:1
+100:3:7:2:0:0:5:1
+100:3:7:3:0:0:5:2
+100:3:7:4:0:0:5:2
+100:3:7:5:0:0:5:2
+100:0:1:0:0:0:0:1
+100:0:2:0:0:0:0:1
+100:0:3:0:0:0:1:1
+100:0:4:0:0:0:2:1
+100:0:5:0:0:0:3:1
+100:0:6:0:0:0:4:1
+100:0:7:1:0:0:5:1
+100:0:7:2:0:0:5:1
+100:0:7:3:0:0:5:2
+100:0:7:4:0:0:5:2
+100:0:7:5:0:0:5:2</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par path/to/SeekDeepCode/SeekDeepParametersFiles/454_it_lkmer2</a></code></pre></div>
+<p>And the following file, <code>454_it_lkmer2_largeHpr</code>, to work well with Ion Torrent data.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="fu">cat</span> 454_it_lkmer2_largeHpr</a></code></pre></div>
+<pre><code>stopCheck:smallCutoff:1baseIndel:2baseIndel:&gt;2baseIndel:HQMismatches:LQMismatches:LKMismatches
+100:3:1:0:0:0:0:1
+100:3:2:0:0:0:0:1
+100:3:3:0:0:0:1:1
+100:3:4:0:.99:0:2:1
+100:3:5:0:.99:0:3:1
+100:3:6:0:.99:0:4:1
+100:3:7:1:.99:0:5:1
+100:3:7:2:.99:0:5:1
+100:3:7:3:.99:0:5:1
+100:3:7:4:.99:0:5:2
+100:3:7:5:.99:0:5:2
+100:0:1:0:0:0:0:1
+100:0:2:0:0:0:0:1
+100:0:3:0:0:0:1:1
+100:0:4:0:.99:0:2:1
+100:0:5:0:.99:0:3:1
+100:0:6:0:.99:0:4:1
+100:0:7:1:.99:0:5:1
+100:0:7:2:.99:0:5:1
+100:0:7:3:.99:0:5:1
+100:0:7:4:.99:0:5:2
+100:0:7:5:.99:0:5:2</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par path/to/SeekDeepCode/SeekDeepParametersFiles/454_it_lkmer2</a></code></pre></div>
+<p>Also if you just use the <code>--ionTorrent</code> flag it will automatically use these parameters</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --ionTorrent</a></code></pre></div>
+<p>Also IonTorrent comes with a slew of problems but among them is how the quality scores are calculated that causes some trouble for qluster so there are 3 additional flags to turn on to get the best performance out of qluster for IonTorrent Data</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par path/to/SeekDeepCode/SeekDeepParametersFiles/454_it_lkmer2 --qualTrim 3 --adjustHomopolyerRuns --useCompPerCutOff</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="co">#or to turn on all of them just use -ionTorrent</span></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par path/to/SeekDeepCode/SeekDeepParametersFiles/454_it_lkmer2 --ionTorrent</a></code></pre></div>
+<ul>
+<li><strong>–qualTrim</strong> - Trims out bases that have a quality of less than the supply value (so 3 means bases with qual of 2 and 1),these are mostly bases at the end of long homopolymer stretches and are often error (if you convert the qual 1 and 2 into their errors rate, <code>10^(-qual/10)</code>, this comes out to be 80% and 63% chance of error)<br />
+</li>
+<li><strong>–adjustHomopolyerRuns</strong> - Ion Torrent does this weird thing with their qualities where they decrease along a homopolymer stretch and sometimes quite drastically (they’ll drop down to 4 or 3 near the end), and this messes with the categorizing of errors so this flags takes the quality scores across a homopolymer run and sets their scores to the average quality<br />
+</li>
+<li><strong>–useCompPerCutOff</strong> - Is a new flag that is somewhat experimental but in test data weird artifacts were appearing where a high frequency of an erroneous read was popping up in control datasets but they were comprised of only reads coming from one direction (Ion Torrent will give reads in both directions) and so this throws out clusters if they are comprised of only reads coming from one direction</li>
+</ul>
+<section id="indels-in-homopolymers" class="level3">
+<h3>Indels in homopolymers</h3>
+<p><a href="#TOC">back to top</a></p>
+<p>SeekDeep by default weighs indels in homopolymer runs differently than other indels (this is because the majority of data that SeekDeep has been used on has been 454 and Ion Torrent data, FYI. this behavior can be turned off by using the <code>--noHomopolymerWeighting</code> flag). See method paper for detail description of how this weighting is done but essentially by setting the large base indel to less than 1 this allows for clusters that differ by indels &gt;2 bases but are comprised completely of just 1 base inside of a homopolymer run to collapse.</p>
+</section>
+</section>
+<section id="illumina" class="level2">
+<h2>Illumina</h2>
+<p><a href="#TOC">back to top</a></p>
+<p>As above for the 454 and Ion Torrent dataset we have found by experiment a parameters that works best for Illumina data and put it in SeekDeepParametersFiles folder as well called <code>illumina_lkmer2</code> and also as mentioned above SeekDeep by default weighs indels found in homopolymer differently and since this isn’t a problem in Illumina data it should be turned off, or you can do this with the <code>--illumina</code> flag</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="fu">cat</span> illumina_lkmer2</a></code></pre></div>
+<pre><code>stopCheck:smallCutoff:1baseIndel:2baseIndel:&gt;2baseIndel:HQMismatches:LQMismatches:LKMismatches
+100:3:1:0:0:0:0:1
+100:3:2:0:0:0:0:1
+100:3:2:0:0:0:1:1
+100:3:2:0:0:0:2:1
+100:3:2:0:0:0:3:1
+100:3:2:0:0:0:4:1
+100:3:2:0:0:0:5:1
+100:3:2:0:0:0:6:2
+100:3:2:0:0:0:7:2
+100:3:2:0:0:0:8:2
+100:3:2:0:0:0:8:2
+100:0:1:0:0:0:0:1
+100:0:2:0:0:0:0:1
+100:0:2:0:0:0:1:1
+100:0:2:0:0:0:2:1
+100:0:2:0:0:0:3:1
+100:0:2:0:0:0:4:1
+100:0:2:0:0:0:5:1
+100:0:2:0:0:0:6:2
+100:0:2:0:0:0:7:2
+100:0:2:0:0:0:8:2
+100:0:2:0:0:0:8:2</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par path/to/SeekDeepCode/SeekDeepParametersFiles/illumina_lkmer2 --noHomopolymerWeighting</a></code></pre></div>
+<p>If you just use the <code>--illumina</code> flag this will just use these parameters</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --illumina</a></code></pre></div>
+</section>
+<section id="otu-clustering" class="level2">
+<h2>Otu Clustering</h2>
+<p><a href="#TOC">back to top</a><br />
+You can supply a parameters files with what otu to clusters at, allow to first cluster more fine (.99%) and then in latter iterations allow .97% or you can use the flag <code>--otu</code> to cluster at a specific otu for several iterations.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="co">#97% otu clustering </span></a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --otu .97</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="co">#99% otu clustering </span></a>
+<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --otu .99</a></code></pre></div>
+</section>
+<section id="allowing-high-quality-differences" class="level2">
+<h2>Allowing high quality differences</h2>
+<p><a href="#TOC">back to top</a><br />
+You can allow high quality differences in the supplied parameters file or in conjunction with the <code>--454</code>, <code>--ionTorrent</code>, or <code>--illumina</code> flags</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="co">#allow low quality differences and 1 high quality difference </span></a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --illumina --hq 1</a>
+<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="co">#allow low quality differences and indel differences common in 454 or ionTorrent and 1 high quality difference</span></a>
+<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="co">#454</span></a>
+<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --454 --hq 1 </a>
+<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="co">#ion torrent</span></a>
+<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --ionTorrent --hq 1 </a></code></pre></div>
+</section>
+<section id="quality-to-categorize-errors" class="level2">
+<h2>Quality to categorize errors</h2>
+<p><a href="#TOC">back to top</a><br />
+To determine if a mismatch is a low quality mismatch the qualities of the mismatching bases are examined along with the flanking base qualities. The quality of the mismatching bases are compared to what is called a primary quality (default 20) threshold and the qualities of the surrounding bases (default number of flanking bases is 2) are compared to what is called a secondary quality(default 15). To change the thresholds the flag <code>-qualThres</code> is used by giving two numbers separated by a comma (eg to do a primary qual of 20 and a secondary of 15 use 20,15). See methods paper for full details on this reasoning.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="co">#raise the threshold meaning more errors will counted as low quality mismatches</span></a>
+<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --qualThres 25,20</a></code></pre></div>
+<p>To change the number of flanking bases used, use the flag -qualThesWindow</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co">#shrink the window to just the previous base and the next base next to the mismatch </span></a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --qualThresWindow 1</a></code></pre></div>
+</section>
+<section id="gap-scoring" class="level2">
+<h2>Gap scoring</h2>
+<p><a href="#TOC">back to top</a><br />
+The global alignments done by qluster are actually semi-global alignments where gap scoring can be applied differently for gaps appearing at the ends of sequences. Since the input data for qluster is targeted amplicon sequence the default alignment parameters are 5 for gap opening at the front and in the middle of the sequence with a penalty of 1 for extending gaps and zero gap penalty for putting gaps at the end of the sequence since a lot of times this type of data has fragmented ends but intact fronts. This can be changed in several ways and there are four flags that can be used, <code>--gapRight</code>, <code>--gap</code> (gaps in the middle), <code>--gapLeft</code>, and <code>--gapAll</code> and the input is two integers separated by a comma, the first number is the opening penalty and the second is gap extension penalty. (eg 5,1 5 open and 1 extend)</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="co">#set gaps at the end of the sequence to 5 open 1 extend </span></a>
+<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --gapRight 5,1</a>
+<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="co">#make gaps at the beginning and end of sequences have no penalty</span></a>
+<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --gapRight 0,0 --gapLeft 0,0</a>
+<a class="sourceLine" id="cb28-5" data-line-number="5"><span class="co">#make gaps everywhere 5 open, 1 extend</span></a>
+<a class="sourceLine" id="cb28-6" data-line-number="6"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --gapAll 5,1</a></code></pre></div>
+</section>
+<section id="additional-options" class="level2">
+<h2>Additional options</h2>
+<p><a href="#TOC">back to top</a></p>
+<section id="changing-out-directory-name" class="level3">
+<h3>Changing out directory name</h3>
+<p>To change the default directory name use the <code>-dout</code> flag. SeekDeep will never overwrite a directory if it already exists and will fail and quit if it tries to create a directory that exists.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --dout clusteringDir</a></code></pre></div>
+<p>The dout option also understand the key work TODAY to mean to insert the current date and time there instead though this means a output directory name can never have TODAY all in caps in it</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --dout clusteringDir_TODAY</a></code></pre></div>
+</section>
+<section id="kmer-frequency-cut-off-level" class="level3">
+<h3>Kmer Frequency Cut off level</h3>
+<p><a href="#TOC">back to top</a><br />
+The default cut off for a mismatch to be considered low frequency is 1. To modify this number use the <code>--runCutOff</code> flag, this can take either a specific number or a percentage</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --runCutOff 5 </a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="co">#if the kmer with the mismatching base in the middle is found in only 5 reads count as low frequency</span></a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --runCutOff .2%</a>
+<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="co">#if the kmer with the mismatching base in the middle is found in only .2% of reads count as low frequency</span></a></code></pre></div>
+<p>Also a back up frequency can be given when giving a percentage of, so if there 1000 input sequences and <code>--runCutOff</code> was given <code>.01%,1</code> the cut off would default to 1 since .1% of 1000 would be 0</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --runCutOff .01%,1</a></code></pre></div>
+</section>
+<section id="caching-alignments" class="level3">
+<h3>Caching alignments</h3>
+<p><a href="#TOC">back to top</a> The most expensive part of qluster is the alignments it has to do to compare the sequences, these alignments can be cached in a directory in a somewhat compressed way if qluster had to be run again, for example if you decided to change parameters to collapse one, the re-run would be much faster. Caching is turn on by using the <code>--alnInfoDir</code> flag and giving it a directory to cache the alignments in</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par1.txt --alnInfoDir alnCache</a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="co">#this second time around would run in a fraction of the time it took the first one</span></a>
+<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par2.txt --alnInfoDir alnCache</a></code></pre></div>
+<p>Alignments are dependent on gap scoring so if gap scoring changes new alignments have to be cached</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par1.txt --alnInfoDir alnCache --gapAll 5,1</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="co">#the second time around would require caching of new alignments</span></a>
+<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par2.txt --alnInfoDir alnCache --gapAll 7,1</a>
+<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="co">#but now either of the below commands would be really fast</span></a>
+<a class="sourceLine" id="cb34-5" data-line-number="5"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par2.txt --alnInfoDir alnCache --gapAll 5,1</a>
+<a class="sourceLine" id="cb34-6" data-line-number="6"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par1.txt --alnInfoDir alnCache --gapAll 7,1</a></code></pre></div>
+</section>
+<section id="marking-possible-chimeric-sequence" class="level3">
+<h3>marking possible chimeric sequence</h3>
+<p><a href="#TOC">back to top</a><br />
+qluster marks final clusters for any clusters that look suspiciously like chimeric sequence (see methods paper for details on how this is done in detail). To turn on this behavior off use the <code>--noMarkChimeras</code> flag. To control what can be marked as chimeric use the <code>--parFreqs</code> flag. This set the frequency cut off the parent sequences have to be for the cluster to be marked as chimeric, this defaults to 2 which would mean the parent sequences would have to be at least twice as much as the possible child chimera to be marked</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --noMarkChimeras </a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="co">#increase multiplier to 5 times as much</span></a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --parFreqs 5</a></code></pre></div>
+</section>
+<section id="additional-alternative-directory-output" class="level3">
+<h3>additional alternative directory output</h3>
+<p><a href="#TOC">back to top</a><br />
+The output of the final clustered haplotypes file (output.fastq) can also be directed to another directory, with is used in conjunction with <code>SeekDeep processClusters</code> to organizing the input to that command. The directory can determined by using the flag <code>--additionalOut</code> flag to give it a file where the first column is the associated MID name and the second is the directory to output to. See a full tutorial on SeekDeep pipeline for more details</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --additionalOut popClustering/locationByIndex/1.tab.txt </a></code></pre></div>
+</section>
+<section id="parameters-for-extra-speed-up" class="level3">
+<h3>Parameters for extra speed up</h3>
+<p><a href="#TOC">back to top</a></p>
+<section id="run-clustering-without-singles" class="level4">
+<h4>Run clustering without singles</h4>
+<p>By using the <code>--leaveOutSinglets</code> flag the analysis will be done with leaving out all singlet reads. This can be useful for extreme read coverage where the number of singlets reads can be enormous but isn’t really needed.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --leaveOutSinglets </a></code></pre></div>
+</section>
+<section id="skipping-compare-of-dissimilar-sequences" class="level4">
+<h4>Skipping compare of dissimilar sequences</h4>
+<p>By using the <code>--fastClustering</code> flag pairwise comparisons that differ in their nucleotide composition will be skipped, the amount of difference is set by <code>--nucCutOff</code>, can range from 0 to 1, defaults to 0.05 meaning a different between nucleotide differences over 0.05 will skip.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --fastClustering</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --fastClustering --nucCutOff 0.1</a></code></pre></div>
+</section>
+</section>
+</section>
+<section id="converging-on-iteration" class="level2">
+<h2>Converging on Iteration</h2>
+<p>By default an iteration will run once, you can make it so an iteration will run until there is no more collapsing, this has the potential to significantly increase run time without much pay off. This behavior is turned on by using <code>--converge</code>.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --fastq example.fastq --par par.txt --converge </a></code></pre></div>
+</section>
+</section>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Nicholas Hathaway" />
+
+
+<title>Illumina Paired End Information</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="commonStyle.css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">SeekDeep</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-sitemap"></span>
+     
+    Installing
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="installingSeekDeep_Mac.html">
+        <span class="fa fa-apple"></span>
+         
+        Mac OS
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Ubuntu.html">
+        <span class="fa fa-linux"></span>
+         
+        Ubuntu
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Windows.html">
+        <span class="fa fa-windows"></span>
+         
+        Windows
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_vagrant.html">Vagrant/virtual image (any system)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-code"></span>
+     
+    Code
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://github.com/bailey-lab/SeekDeep">
+        <span class="fa fa-github"></span>
+         
+        Github
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-wrench"></span>
+     
+    Usages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Pipeline</li>
+    <li>
+      <a href="extractor_usage.html">extractor/extractorPairedEnd</a>
+    </li>
+    <li>
+      <a href="makeSampleDirectories_usage.html">makeSampleDirectories</a>
+    </li>
+    <li>
+      <a href="qluster_usage.html">qluster</a>
+    </li>
+    <li>
+      <a href="processClusters_usage.html">processClusters</a>
+    </li>
+    <li>
+      <a href="popClusteringViewer_usage.html">popClusteringViewer</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Pipeline Wrapper</li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Utilities</li>
+    <li>
+      <a href="genTargetInfoFromGenomes_usage.html">genTargetInfoFromGenomes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-terminal"></span>
+     
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Single End (454/IonTorrent/Stitched Illumina)</li>
+    <li>
+      <a href="tutorial_IonTorrent_MIDs.html">Ion Torrent with MIDs</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Illumina Paired End</li>
+    <li>
+      <a href="tutorial_PairedEnd_noMIDs.html">Paired End No MIDs</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Misc Info
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="illumina_paired_info.html">Illumina Paired End Info</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Illumina Paired End Information</h1>
+<h4 class="author"><em>Nicholas Hathaway</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#illumina-paired-end-sequencing">Illumina Paired End Sequencing</a></li>
+<li><a href="#overlap-status">Overlap status</a></li>
+<li><a href="#attaching-illumina-adaptersprimers">Attaching Illumina adapters/primers</a><ul>
+<li><a href="#by-pcr">By PCR</a></li>
+<li><a href="#by-ligation">By ligation</a></li>
+</ul></li>
+</ul>
+</div>
+
+<section id="illumina-paired-end-sequencing" class="level1">
+<h1>Illumina Paired End Sequencing</h1>
+<p>Illumina gets sequence data from both strands of input sequence which means it outputs data from both ends of the input and is normally reported two files R1 and R2, often refereed to as mates files (R1=first mates, R2=second mates). Due to the way data is reported in these files, special care has to be taken when processing these data files. What ends up in the first mates files vs the second mates files is dependent on how the forward and reverse Illumina adapter/primers are added to the sequences with sequence immediately following the forward Illumina adapter/primer being in R1 and the sequence that comes right before the reverse Illumina adapter/primer being in R2. This adapter sequence is most commonly trimmed off by Illumina’s own software associated with the sequencing machine itself.</p>
+<p><img src="images/Default%20Diagram.jpg" /></p>
+</section>
+<section id="overlap-status" class="level1">
+<h1>Overlap status</h1>
+<p>Depending on the length of your input and the length being sequences there are several ways your sequences in the mate files end up overlapping if there is any overlapping at all.</p>
+<ol type="1">
+<li>no overlap the sequences do not overlap<br />
+</li>
+<li>first mate ends in the second mate<br />
+</li>
+<li>first mate begins in the second mate (in this case the primer/adapters from the other ends are sequences, a scenario referred to as “read through”)</li>
+</ol>
+<p><img src="images/Illumina%20Pair%20Overlap%20Status.jpg" /></p>
+</section>
+<section id="attaching-illumina-adaptersprimers" class="level1">
+<h1>Attaching Illumina adapters/primers</h1>
+<p>Depending on how Illumina adapters/primers are attached to your target of interest can affect the orientation of the sequences you get from the machine.</p>
+<section id="by-pcr" class="level2">
+<h2>By PCR</h2>
+<p>If Illumina adapters/primers are attached by PCR, depending on how this is done all of your final sequences can end up in the same “direction”.</p>
+<p><img src="images/Adding%20Illumina%20Adapters%20by%20PCR.jpg" /></p>
+</section>
+<section id="by-ligation" class="level2">
+<h2>By ligation</h2>
+<p>If Illumina adapters/primers are attached by ligation by simply attaching using sticky ends ligation (again could depend on library prep), your final sequences can end up as a mix of both directions.</p>
+<p><img src="images/Adding%20Illumina%20Adapters%20by%20Ligation.jpg" /></p>
+</section>
+</section>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

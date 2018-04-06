@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Nicholas Hathaway" />
+
+
+<title>Install and Setting Up SeekDeep MAC OS</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">SeekDeep</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-sitemap"></span>
+     
+    Installing
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="installingSeekDeep_Mac.html">
+        <span class="fa fa-apple"></span>
+         
+        Mac OS
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Ubuntu.html">
+        <span class="fa fa-linux"></span>
+         
+        Ubuntu
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Windows.html">
+        <span class="fa fa-windows"></span>
+         
+        Windows
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_vagrant.html">Vagrant/virtual image (any system)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-code"></span>
+     
+    Code
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://github.com/bailey-lab/SeekDeep">
+        <span class="fa fa-github"></span>
+         
+        Github
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-wrench"></span>
+     
+    Usages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Pipeline</li>
+    <li>
+      <a href="extractor_usage.html">extractor/extractorPairedEnd</a>
+    </li>
+    <li>
+      <a href="makeSampleDirectories_usage.html">makeSampleDirectories</a>
+    </li>
+    <li>
+      <a href="qluster_usage.html">qluster</a>
+    </li>
+    <li>
+      <a href="processClusters_usage.html">processClusters</a>
+    </li>
+    <li>
+      <a href="popClusteringViewer_usage.html">popClusteringViewer</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Pipeline Wrapper</li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Utilities</li>
+    <li>
+      <a href="genTargetInfoFromGenomes_usage.html">genTargetInfoFromGenomes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-terminal"></span>
+     
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Single End (454/IonTorrent/Stitched Illumina)</li>
+    <li>
+      <a href="tutorial_IonTorrent_MIDs.html">Ion Torrent with MIDs</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Illumina Paired End</li>
+    <li>
+      <a href="tutorial_PairedEnd_noMIDs.html">Paired End No MIDs</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Misc Info
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="illumina_paired_info.html">Illumina Paired End Info</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Install and Setting Up SeekDeep MAC OS</h1>
+<h4 class="author"><em>Nicholas Hathaway</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#seekdeep">SeekDeep</a></li>
+<li><a href="#downloading-code">Downloading code</a></li>
+<li><a href="#installing-dependencies">Installing Dependencies</a><ul>
+<li><a href="#compliers">Compliers</a><ul>
+<li><a href="#libraries">Libraries</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#configuring">Configuring</a><ul>
+<li><a href="#installing-further-dependencies-libraries">Installing Further Dependencies Libraries</a></li>
+</ul></li>
+<li><a href="#compiling">Compiling</a></li>
+<li><a href="#adding-seekdeep-to-path">Adding SeekDeep to path</a></li>
+<li><a href="#adding-auto-flag-completion">Adding auto flag completion</a></li>
+<li><a href="#adding-additional-tools.">Adding additional tools.</a></li>
+<li><a href="#calling-seekdeep-commands">Calling SeekDeep commands</a></li>
+</ul>
+</div>
+
+<section id="seekdeep" class="level1">
+<h1>SeekDeep</h1>
+<p>SeekDeep is one command line program that contains several programs within that all combined together make up the SeekDeep targeted sequencing analysis pipeline. Currently installs only MAC, Ubuntu, and other UNIX based systems is supported.</p>
+</section>
+<section id="downloading-code" class="level1">
+<h1>Downloading code</h1>
+<p><a href="#TOC">back to top</a><br />
+Source code for the program is hosted at <a href="https://github.com/bailey-lab/SeekDeep">github</a> and can be downloaded by either using git (recommended) or by downloading a compressed folder of the code<br />
+The recommended approach is to use git to clone the repository for the code because this is the easiest way to keep the code up to date.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="bu">cd</span> ~</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="fu">git</span> clone https://github.com/bailey-lab/SeekDeep</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="bu">cd</span> SeekDeep</a></code></pre></div>
+<p><strong>Or</strong> downloading compressed folder, latest version is v2.6.0, this is not recommended as this will make it harder to keep the code up to date</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="bu">cd</span> ~</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="fu">wget</span> https://github.com/bailey-lab/SeekDeep/archive/v2.6.0.tar.gz</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="fu">tar</span> zxvf v2.6.0.tar.gz </a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="bu">cd</span> SeekDeep-v2.6.0/</a></code></pre></div>
+</section>
+<section id="installing-dependencies" class="level1">
+<h1>Installing Dependencies</h1>
+<p><a href="#TOC">back to top</a></p>
+<p>To install extra packages on Mac OS X the easier way is to use a package manager like brew (recommended) or macports. Instructions on brew found <a href="http://brew.sh/">here</a>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">#install homebrew</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="ex">ruby</span> -e <span class="st">&quot;</span><span class="va">$(</span><span class="ex">curl</span> -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install<span class="va">)</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#run brew doctor </span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="ex">brew</span> doctor</a></code></pre></div>
+<p>You will most likely need to install Xcode as well which is free via the app store and then you also need to install the Xcode command line tools</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="ex">xcode-select</span> --install</a></code></pre></div>
+<section id="compliers" class="level2">
+<h2>Compliers</h2>
+<p><a href="#TOC">back to top</a><br />
+You need to have either clang or g++ installed. For mac the easiest is to just use the mac packaged clang package ### Clang <a href="#TOC">back to top</a><br />
+Mac comes packaged with clang though you might have to install Xcode to get it to be accessible. Xcode is free and can be download via the app store though you might also have to make sure the Xcode command line tools are also installed.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="ex">xcode-select</span> --install</a></code></pre></div>
+<section id="libraries" class="level3">
+<h3>Libraries</h3>
+<p>To install cmake the following brew commands can be used</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="ex">brew</span> update</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="ex">brew</span> upgrade</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="ex">brew</span> install cmake </a></code></pre></div>
+</section>
+</section>
+</section>
+<section id="configuring" class="level1">
+<h1>Configuring</h1>
+<p><a href="#TOC">back to top</a><br />
+Once code has been downloaded it needs to be compiled but first come dependencies have to be downloaded and a compiler has to be chosen. SeekDeep requires &gt; g++-5 or clang++-3.8 to be compiled. It has been extensively tested on clang++ and therefore is more likely to compile without problems using clang++. clang++ has also been demonstrated to install a faster final executable for SeekDeep than gcc.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">#configure and choose compilers</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#no arguments assumes clang++ or whatever environmental CC and CXX are set to </span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="ex">./configure.py</span></a></code></pre></div>
+<section id="installing-further-dependencies-libraries" class="level2">
+<h2>Installing Further Dependencies Libraries</h2>
+<p><a href="#TOC">back to top</a><br />
+Calling configure will create a file called compfile.mk which will contain info on the libraries needed and what compilers to use, this is give to setup.py to download the libraries SeekDeep relay on. This may take some time especially if being done on a machine that doesn’t have many cores. Some of these dependencies might be worked out in future releases making install easier. The longest library to compile is R, which SeekDeep compiles it’s own R due to conflicts with R versions on the shared server SeekDeep was developed on and required it’s own R to work best.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># will install dependent libaries in a folder called external</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="ex">./setup.py</span> --compfile compfile.mk --outMakefile makefile-common.mk</a></code></pre></div>
+<p>This command should report on whether anything failed to install, if this does happen, contact Nick Hathaway at <a href="mailto:Nicholas.Hathaway@umassmed.edu">Nicholas.Hathaway@umassmed.edu</a> to complain to him his install is annoying and therefore failing, and send along any errors messages that can be found.</p>
+</section>
+</section>
+<section id="compiling" class="level1">
+<h1>Compiling</h1>
+<p><a href="#TOC">back to top</a><br />
+If the setup.py was able to install everything, next is to make SeekDeep itself which takes a simple <code>make</code> command and will compile SeekDeep in a directory called bin/ in the SeekDeep directory</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="fu">make</span></a></code></pre></div>
+<p>To use more cores to speed up make use -j, below would use 4 cores</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="fu">make</span> -j 4</a></code></pre></div>
+<p>Again if this fails to compile, complain to Nick (<a href="mailto:Nicholas.Hathaway@umassmed.edu">Nicholas.Hathaway@umassmed.edu</a>) that he should get his act together to make this an easier install.</p>
+</section>
+<section id="adding-seekdeep-to-path" class="level1">
+<h1>Adding SeekDeep to path</h1>
+<p><a href="#TOC">back to top</a><br />
+To call SeekDeep from the command line it will need to be called either with it’s full name or adding the bin directory in the SeekDeep directory to your environmental path. This is done by modifying your ~/.profile file (on MAC it’s ~/.bash_profile). Also this won’t take effect until this file is sourced either on your next log in or by called <code>source ~/.profile</code></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co">#add the following to your ~/.bash_profile and replace $HOME/ with the path where SeekDeep was downloaded</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="bu">export</span> <span class="va">PATH=$HOME</span>/SeekDeep/bin/:<span class="va">$PATH</span></a></code></pre></div>
+</section>
+<section id="adding-auto-flag-completion" class="level1">
+<h1>Adding auto flag completion</h1>
+<p><a href="#TOC">back to top</a><br />
+A lot of the flags in <strong>SeekDeep</strong> can be long and annoying to type in so and auto flag completion has been added in folder called bash_completion.d in a file called SeekDeep. The content of this file should be added to ~/.bash_completion though your shell environment must already be set up for bash completion which is true for most Ubuntu machines but not always of Macs but brew can help set it up. There is also a command in <code>./setup.py</code> that will add this to .bash_completion for you (it simply does what was said above and puts the contents of the file in bashCompletes to ~/.bash_completion)</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="ex">brew</span> install bash-completion</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="ex">./setup.py</span> --addBashCompletion</a></code></pre></div>
+</section>
+<section id="adding-additional-tools." class="level1">
+<h1>Adding additional tools.</h1>
+<p>muscle is a third party tools that SeekDeep call and should be installed as</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co">#add other tools </span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="ex">./setup.py</span> --libs muscle:3.8.31 --symlinkBin --overWrite</a></code></pre></div>
+</section>
+<section id="calling-seekdeep-commands" class="level1">
+<h1>Calling SeekDeep commands</h1>
+<p>To get a list of commands that SeekDeep can call simply call it without any arguments</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="ex">SeekDeep</span></a></code></pre></div>
+<pre><code>Version 2.5.2
+Programs
+Use SeekDeep [PROGRAM] --help to see more details about each program
+Commands are not case sensitive
+SeekDeep
+1) extractor
+2) extractorPairedEnd
+3) makeSampleDirectories
+4) processClusters
+5) qluster
+SeekDeepServer
+1) genProjectConfig
+2) popClusteringViewer
+SeekDeepUtils
+1) dryRunQualityFiltering
+2) genTargetInfoFromGenomes
+3) rBind
+4) replaceUnderscores
+5) runMultipleCommands
+6) setupTarAmpAnalysis</code></pre>
+<p>Then to call a sub-command just type it’s name after SeekDeep, and without adding arguments will automatically print it’s help message</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="co">#or with -help/-h </span></a>
+<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="ex">SeekDeep</span> qluster --help</a></code></pre></div>
+<p>Also the commands and flags of SeekDeep are not case sensitive so all the below would work</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="ex">SeekDeep</span> qluster --help </a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="ex">SeekDeep</span> qluster --HELP</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="ex">SeekDeep</span> qluster --HeLP</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="ex">SeekDeep</span> qluster --HeLp</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="ex">SeekDeep</span> QLUSTER --HeLP</a>
+<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="ex">SeekDeep</span> qluster --HeLp</a>
+<a class="sourceLine" id="cb18-7" data-line-number="7"><span class="ex">SeekDeep</span> qlUstEr --HeLp</a></code></pre></div>
+</section>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

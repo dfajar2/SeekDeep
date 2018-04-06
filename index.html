@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>SeekDeep</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">SeekDeep</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-sitemap"></span>
+     
+    Installing
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="installingSeekDeep_Mac.html">
+        <span class="fa fa-apple"></span>
+         
+        Mac OS
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Ubuntu.html">
+        <span class="fa fa-linux"></span>
+         
+        Ubuntu
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Windows.html">
+        <span class="fa fa-windows"></span>
+         
+        Windows
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_vagrant.html">Vagrant/virtual image (any system)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-code"></span>
+     
+    Code
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://github.com/bailey-lab/SeekDeep">
+        <span class="fa fa-github"></span>
+         
+        Github
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-wrench"></span>
+     
+    Usages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Pipeline</li>
+    <li>
+      <a href="extractor_usage.html">extractor/extractorPairedEnd</a>
+    </li>
+    <li>
+      <a href="makeSampleDirectories_usage.html">makeSampleDirectories</a>
+    </li>
+    <li>
+      <a href="qluster_usage.html">qluster</a>
+    </li>
+    <li>
+      <a href="processClusters_usage.html">processClusters</a>
+    </li>
+    <li>
+      <a href="popClusteringViewer_usage.html">popClusteringViewer</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Pipeline Wrapper</li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Utilities</li>
+    <li>
+      <a href="genTargetInfoFromGenomes_usage.html">genTargetInfoFromGenomes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-terminal"></span>
+     
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Single End (454/IonTorrent/Stitched Illumina)</li>
+    <li>
+      <a href="tutorial_IonTorrent_MIDs.html">Ion Torrent with MIDs</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Illumina Paired End</li>
+    <li>
+      <a href="tutorial_PairedEnd_noMIDs.html">Paired End No MIDs</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Misc Info
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="illumina_paired_info.html">Illumina Paired End Info</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">SeekDeep</h1>
+
+</div>
+
+
+<div class="container marketing">
+<!-- Carousel
+================================================== -->
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+<!-- Indicators -->
+<ol class="carousel-indicators">
+<li data-target="#myCarousel" data-slide-to="0" class>
+</li>
+<li data-target="#myCarousel" data-slide-to="1" class="active">
+</li>
+<li data-target="#myCarousel" data-slide-to="2" class>
+</li>
+</ol>
+<div class="carousel-inner" data-role="listbox">
+<div class="item">
+<img class="first-slide" src="images/back1.jpg">
+<div class="container">
+<div class="carousel-caption">
+<h1>
+Code
+</h1>
+<p>
+Code can be cloned on github and compiled on Mac, Ubuntu, and other Unix based systems
+</p>
+<p>
+<a class="btn btn-lg btn-primary" href="https://github.com/bailey-lab/SeekDeep" role="button">Go to github</a>
+</p>
+</div>
+</div>
+</div>
+<div class="item active">
+<img class="second-slide" src="images/back2.jpg">
+<div class="container">
+<div class="carousel-caption">
+<h1>
+Full Pipeline Tutorials
+</h1>
+<p>
+Full pipeline tutorials utilizing all of SeekDeep are available
+</p>
+<p>
+<a class="btn btn-lg btn-primary" role="button" href="multiplexTutorial_cmds.html">Multiplexed</a> <a class="btn btn-lg btn-primary" role="button" href="Analyzing_Paired_End_Reads.html">Illumina Paired End Analysis</a>
+</p>
+</div>
+</div>
+</div>
+<div class="item">
+<img class="third-slide" src="images/back3.jpg">
+<div class="container">
+<div class="carousel-caption">
+<h1>
+Individual Programs
+</h1>
+<p>
+Each part of SeekDeep can be used by itself
+</p>
+<p>
+<a class="btn btn-lg btn-primary" href="extractor_usage.html" role="button">extractor</a> <a class="btn btn-lg btn-primary" href="qluster_usage.html" role="button">qluster</a> <a class="btn btn-lg btn-primary" href="processClusters_usage.html" role="button">processClusters</a>
+</p>
+</div>
+</div>
+</div>
+</div>
+<p><a class="left carousel-control" href="http://getbootstrap.com/examples/carousel/#myCarousel" role="button" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left" data-aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="right carousel-control" href="http://getbootstrap.com/examples/carousel/#myCarousel" role="button" data-slide="next"> <span class="glyphicon glyphicon-chevron-right" data-aria-hidden="true"></span> <span class="sr-only">Next</span> </a></p>
+</div>
+<!-- /.carousel -->
+<!-- Marketing messaging and featurettes
+================================================== -->
+<!-- Wrap the rest of the page in another container to center all the content. -->
+<div class="row featurette">
+<div class="col-md-7">
+<h2 class="featurette-heading">
+SeekDeep <br><span class="text-muted">Targeted Amplicon Analysis</span>
+</h2>
+<p class="lead">
+The SeekDeep pipeline is intended for use on targeted amplicon sequencing data for haplotype frequency estimation for multiple samples from a population. This is broken down into three steps.<br>1)<strong> extractor</strong> - Demultiplexing and read filtering<br>2)<strong> qluster</strong> - Clustering and haplotype prediction/frequency estimation per demultiplex data subset<br>3)<strong> processClusters</strong> - Possible multiple PCR replicate comparison and comparison of haplotypes across samples<br>4)<strong> popClusteringViewer</strong> - A html server to view final results, example <a href="http://baileylab.umassmed.edu/SeekDeepExample2">here</a>
+</p>
+</div>
+<div class="col-md-5">
+<p><img class="featurette-image img-responsive center-block" src = "images/full pipeline.jpg"></p>
+</div>
+</div>
+<hr class="featurette-divider">
+<!-- Three columns of text below the carousel -->
+<div class="row">
+<div class="col-md-4 col-lg-4 text-center">
+<img class="img-circle" src="images/extractor.gif" width="140" height="140">
+<h2>
+extractor
+</h2>
+<p>
+Extractor can de-multiplex sequence data on sample MIDs and/or on primer pairs from 454, Ion Torrent, and Illumina. Can also apply several filtering parameters including read length and quality scores
+</p>
+<p>
+<a class="btn btn-default" href="extractor_usage.html" role="button">View Usage »</a>
+</p>
+</div>
+<!-- /.col-lg-4 -->
+<div class="col-md-4 col-lg-4 text-center">
+<img class="img-circle" src="images/clustering.gif" width="140" height="140">
+<h2>
+qluster
+</h2>
+<p>
+qluster takes a single sample sequence file and clusters the reads based on common errors seen in sequencing and pcr.
+</p>
+<p>
+<a class="btn btn-default" href="qluster_usage.html" role="button">View Usage »</a>
+</p>
+</div>
+<!-- /.col-lg-4 -->
+<div class="col-md-4 col-lg-4 text-center">
+<img class="img-circle" src="images/processClusters.gif" width="140" height="140">
+<h2>
+processClusters
+</h2>
+<p>
+Does possible pcr replicate comparisons, performs some final data processing, and can do a simple population comparison across samples
+</p>
+<p>
+<a class="btn btn-default" href="processClusters_usage.html" role="button">View Usage »</a>
+</p>
+</div>
+<!-- /.col-lg-4 -->
+</div>
+<!-- /.row -->
+<!-- START THE FEATURETTES -->
+<hr class="featurette-divider">
+<div class="row featurette">
+<div class="col-md-7 col-md-push-5">
+<h2 class="featurette-heading">
+Plasmodium Population <span class="text-muted"></span>
+</h2>
+<p class="lead">
+The SeekDeep pipeline grew out of the work done by <a href= "http://baileylab.umassmed.edu/fw/bin/view/BaileyPublic/WebHome">Umass Med Bailey Lab</a> and <a href = "https://www.med.unc.edu/infdis/ideel">Collaborators</a> on studying the Plasmodium parasite (Malaria) and is therefore shaped by this work
+</p>
+</div>
+<div class="col-md-5 col-md-pull-7">
+<p><img class="featurette-image img-responsive center-block" src="images/malaraia_design.001.jpg"></p>
+</div>
+</div>
+<hr class="featurette-divider">
+<div class="row featurette">
+<div class="col-lg-10 col-lg-offset-1">
+<h2 class="featurette-heading">
+Multiplexed Patient Data
+</h2>
+<p class="lead">
+<span class="text-muted">Full Tutorial Found <a href="multiplexTutorial_cmds.html">Here</a></span>
+</p>
+<p class="lead">
+The SeekDeep pipeline was developed for work with targeted amplicon sequencing on patient/individual samples with dual PCR replicates and therefore is best used with this set up though it can also be used other set ups as well (multiple targets, single replicate data, etc.) Below is a schematic of simplified example of this normal set up.<br><br> Samples are taken from several patients/individuals and each sample has two PCR replicates done with different barcodes. Barcoded data is pooled and sequenced normally requiring several sequencing runs (which means the same barcodes can be used for different pools). Each sequencing run are demultiplexed by <a href = "extractor_usage.html">SeekDeep extractor</a> to recover replicate organization.<br><br> Each demultiplex file is then clustered by <a href = "qluster_usage.html">SeekDeep qluster</a> to estimate haplotypes diversity and frequency in each replicate. <br><br> Output data from each <strong>qluster</strong> run is then organized into output directory (this step is helped with use of <a href = "makeSampleDirectories_usage.html">SeekDeep makeSampleDirectories</a>). This results directory is then analyzed by <a href = "processClusters_usage.html">SeekDeep processClusters</a> to do replicate comparison to keep haplotypes found only in both replicates and to do some final data filtering. Final data from the replicate comparison is then analyzed together to get a population analysis to get info on the haplotypes appearing in the whole population
+</p>
+</div>
+</div>
+<div class="row featurette">
+<div class="col-lg-10 col-lg-offset-1">
+<p><img class="featurette-image img-responsive center-block" src = "images/SeekDeep_Full_Pipeline.jpg"></p>
+</div>
+</div>
+<hr class="featurette-divider">
+<a name="contact"></a>
+<div class="row featurette">
+<div class="col-md-7">
+<h2 class="featurette-heading">
+Contact
+</h2>
+<p class="lead">
+Any questions or concerns should be directed to Nick Hathaway
+</p>
+<p class="lead">
+<a href="mailto:nicholas.hathaway@umassmed.edu">nicholas.hathaway@umassmed.edu</a>
+</p>
+<p class="lead">
+<a href="mailto:nickjhathaway@gmail.com">nickjhathaway@gmail.com</a>
+</p>
+<p class="lead">
+<a href= "https://github.com/nickjhathaway">nickjhathaway@github</a>
+</p>
+</div>
+</div>
+<!-- /END THE FEATURETTES -->
+<!-- FOOTER -->
+<footer>
+<p class="pull-right">
+<a href="index.html">Back to top</a>
+</p>
+<p>
+<a href="http://baileylab.umassmed.edu/fw/bin/view/BaileyPublic/WebHome">© 2015-2018 UMass Med Bailey Lab</a>
+</p>
+</footer>
+</div>
+<!-- /.container -->
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

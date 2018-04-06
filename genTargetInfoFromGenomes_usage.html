@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Nicholas Hathaway" />
+
+
+<title>genTargetInfoFromGenomes</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">SeekDeep</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-sitemap"></span>
+     
+    Installing
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="installingSeekDeep_Mac.html">
+        <span class="fa fa-apple"></span>
+         
+        Mac OS
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Ubuntu.html">
+        <span class="fa fa-linux"></span>
+         
+        Ubuntu
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Windows.html">
+        <span class="fa fa-windows"></span>
+         
+        Windows
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_vagrant.html">Vagrant/virtual image (any system)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-code"></span>
+     
+    Code
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://github.com/bailey-lab/SeekDeep">
+        <span class="fa fa-github"></span>
+         
+        Github
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-wrench"></span>
+     
+    Usages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Pipeline</li>
+    <li>
+      <a href="extractor_usage.html">extractor/extractorPairedEnd</a>
+    </li>
+    <li>
+      <a href="makeSampleDirectories_usage.html">makeSampleDirectories</a>
+    </li>
+    <li>
+      <a href="qluster_usage.html">qluster</a>
+    </li>
+    <li>
+      <a href="processClusters_usage.html">processClusters</a>
+    </li>
+    <li>
+      <a href="popClusteringViewer_usage.html">popClusteringViewer</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Pipeline Wrapper</li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Utilities</li>
+    <li>
+      <a href="genTargetInfoFromGenomes_usage.html">genTargetInfoFromGenomes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-terminal"></span>
+     
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Single End (454/IonTorrent/Stitched Illumina)</li>
+    <li>
+      <a href="tutorial_IonTorrent_MIDs.html">Ion Torrent with MIDs</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Illumina Paired End</li>
+    <li>
+      <a href="tutorial_PairedEnd_noMIDs.html">Paired End No MIDs</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Misc Info
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="illumina_paired_info.html">Illumina Paired End Info</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">genTargetInfoFromGenomes</h1>
+<h4 class="author"><em>Nicholas Hathaway</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#seekdeep-gentargetinfofromgenomes">SeekDeep genTargetInfoFromGenomes</a></li>
+<li><a href="#plasmodium-example">Plasmodium Example</a><ul>
+<li><a href="#required-options">Required options</a></li>
+<li><a href="#optional-options">Optional options</a></li>
+<li><a href="#output">Output</a></li>
+</ul></li>
+<li><a href="#microbiome-example">Microbiome Example</a></li>
+</ul>
+</div>
+
+<section id="seekdeep-gentargetinfofromgenomes" class="level1">
+<h1>SeekDeep genTargetInfoFromGenomes</h1>
+<p><strong>SeekDeep genTargetInfoFromGenomes</strong> is mostly used to automatically generate several of the files used by the SeekDeep pipeline mostly in the extraction step. It is also useful for checking primers</p>
+<p>SeekDeep comes equipped with a helper function (<code>SeekDeep genTargetInfoFromGenomes</code>) to provide some of the files used by the program. It is not required that you use this helper function as all of these files can be created by hand but this helper function can help ease the creation of these files. <code>SeekDeep genTargetInfoFromGenomes</code> needs bowtie2 and samtools to be installed and requires a directory of genomes (at least 1). <code>SeekDeep genTargetInfoFromGenomes</code> takes a primer ID file that is required by <code>SeekDeep extractor</code> and extracts the sequences expected with the primers from the genomes.</p>
+</section>
+<section id="plasmodium-example" class="level1">
+<h1>Plasmodium Example</h1>
+<p>Here is an example running on the Plasmodium falciparum 3D7 reference genome for several P. falciparum</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="fu">wget</span> http://baileylab.umassmed.edu/data/plasmodiumData/pfgenomes.tar.gz </a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="fu">tar</span> -zxvf pfgenomes.tar.gz</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="fu">wget</span> http://baileylab.umassmed.edu/data/plasmodiumData/pf_primers.tab.txt </a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="ex">SeekDeep</span> genTargetInfoFromGenomes --genomeDir pfgenomes/genomes/ --primers pf_primers.tab.txt --numThreads 7 --pairedEndLength 300 --dout extractedRefSeqs </a></code></pre></div>
+<section id="required-options" class="level2">
+<h2>Required options</h2>
+<ul>
+<li><strong>--genomeDir</strong> - A directory of genomes that must end in .fasta (the .fasta extension is used to determine which files in this directory to treat as genomes) which will be automatically bowtie2 indexed if they aren’t already<br />
+</li>
+<li><strong>--primers</strong> - The ID file containing the primers used<br />
+</li>
+<li><strong>--pairedEndLength</strong> - The length of the input sequencing length for paired end analysis (e.g. 250 for 2x250)</li>
+</ul>
+</section>
+<section id="optional-options" class="level2">
+<h2>Optional options</h2>
+<ul>
+<li><strong>--numThreads</strong> - The number of threads/CPUs to use in parallel<br />
+</li>
+<li><strong>--dout</strong> - A name of an output directory<br />
+</li>
+<li><strong>--lenCutOffSizeExpand</strong> - By default the max and min sizes are set to the +/-20 off of the max and min sizes of the extracted seqs, since msp1 here has large length variation, this has been increased to +/- 50 though this could also be solved by using more than just the Pf3D7 genome and using more refs.<br />
+</li>
+<li><strong>--sizeLimit</strong> - Since by default this program is used for short amplicon analysis there is an default size limit for the extraction length (1000), meaning possible extractions longer than 1000 bp will not be extracted, which can be changed with this flag.</li>
+</ul>
+</section>
+<section id="output" class="level2">
+<h2>Output</h2>
+<p>All of the output will be in one directory. Within this directory there will be a directory for each target given in the ID file that contains several useful files including:</p>
+<ol type="1">
+<li><strong>extractionCounts.tab.txt</strong> - A file giving how many times each primer hit and the number of extractions per genome<br />
+</li>
+<li><strong>forwardPrimer.fasta</strong> - The forward primer used, if it contained degenerative bases this file will be every possible primer<br />
+</li>
+<li><strong>reversePrimer.fasta</strong> - The reverse primer used, if it contained degenerative bases this file will be every possible primer</li>
+<li><strong>genomeLocations</strong> - The genomic locations of the extractions<br />
+</li>
+<li><strong>[TARGET_NAME].fasta</strong> - A fasta file of the extractions<br />
+</li>
+<li>**[TARGET_NAME]_primersRemoved.fasta** - A fasta file of the extractions with the primers removed</li>
+</ol>
+<p>There will also be a directory named <strong>forSeekDeep</strong> which will contain three files useful for SeekDeep runs:</p>
+<ol type="1">
+<li><strong>lenCutOffs.txt</strong> - A file giving estimated length cut off by using the max and min lengths of the extracted reference sequences<br />
+</li>
+<li><strong>overlapStatuses.txt</strong> - A file indicating the overlap possible given the paired end sequencing length and the length of the reference sequences, required by <code>SeekDeep extractorPairedEnd</code>, see <a href="extractor_usage.html">SeekDeep extractor</a> and <a href="illumina_paired_info.html">Illumina Paired Info Page</a><br />
+</li>
+<li><strong>refSeqs</strong> - A directory of the extracted reference sequences with a fasta file for each target, this directory can be given to <code>SeekDeep extractor</code> to help filter off artifact/contamination</li>
+</ol>
+</section>
+</section>
+<section id="microbiome-example" class="level1">
+<h1>Microbiome Example</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="fu">wget</span> http://baileylab.umassmed.edu/data/microbiomeData/ncbi_genomes_renamed.tar.gz </a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="fu">tar</span> -zxvf ncbi_genomes_renamed.tar.gz</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="fu">wget</span> http://baileylab.umassmed.edu/data/microbiomeData/16s_variableRegions_targets.id.txt </a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="ex">SeekDeep</span> genTargetInfoFromGenomes --genomeDir ncbi_genomes_renamed --primers 16s_variableRegions_targets.id.txt --numThreads 7 --pairedEndLength 300 --dout extractedRefSeqs </a></code></pre></div>
+</section>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

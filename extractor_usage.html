@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Nicholas Hathaway" />
+
+
+<title>SeekDeep extractor Usage</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="commonStyle.css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">SeekDeep</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-sitemap"></span>
+     
+    Installing
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="installingSeekDeep_Mac.html">
+        <span class="fa fa-apple"></span>
+         
+        Mac OS
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Ubuntu.html">
+        <span class="fa fa-linux"></span>
+         
+        Ubuntu
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_Windows.html">
+        <span class="fa fa-windows"></span>
+         
+        Windows
+      </a>
+    </li>
+    <li>
+      <a href="installingSeekDeep_vagrant.html">Vagrant/virtual image (any system)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-code"></span>
+     
+    Code
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://github.com/bailey-lab/SeekDeep">
+        <span class="fa fa-github"></span>
+         
+        Github
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-wrench"></span>
+     
+    Usages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Pipeline</li>
+    <li>
+      <a href="extractor_usage.html">extractor/extractorPairedEnd</a>
+    </li>
+    <li>
+      <a href="makeSampleDirectories_usage.html">makeSampleDirectories</a>
+    </li>
+    <li>
+      <a href="qluster_usage.html">qluster</a>
+    </li>
+    <li>
+      <a href="processClusters_usage.html">processClusters</a>
+    </li>
+    <li>
+      <a href="popClusteringViewer_usage.html">popClusteringViewer</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Pipeline Wrapper</li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Utilities</li>
+    <li>
+      <a href="genTargetInfoFromGenomes_usage.html">genTargetInfoFromGenomes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-terminal"></span>
+     
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Single End (454/IonTorrent/Stitched Illumina)</li>
+    <li>
+      <a href="tutorial_IonTorrent_MIDs.html">Ion Torrent with MIDs</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Illumina Paired End</li>
+    <li>
+      <a href="tutorial_PairedEnd_noMIDs.html">Paired End No MIDs</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Misc Info
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="illumina_paired_info.html">Illumina Paired End Info</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">SeekDeep extractor Usage</h1>
+<h4 class="author"><em>Nicholas Hathaway</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#extractors-purpose">extractor’s Purpose</a></li>
+<li><a href="#paired-end-extraction">Paired End Extraction</a></li>
+<li><a href="#getting-usage-command-line">Getting usage command line</a></li>
+<li><a href="#format-of-id-file">Format of id file</a><ul>
+<li><a href="#primers">Primers</a><ul>
+<li><a href="#forward-primer">Forward Primer</a></li>
+<li><a href="#reverse-primer">Reverse Primer</a></li>
+</ul></li>
+<li><a href="#mids">MIDs</a></li>
+</ul></li>
+<li><a href="#output-files">Output files</a></li>
+<li><a href="#examples">Examples</a><ul>
+<li><a href="#required-files">Required files</a><ul>
+<li><a href="#different-input-formats">Different input formats</a></li>
+<li><a href="#paired-end">Paired End</a></li>
+<li><a href="#multiplexed-and-multiple-primer-pairs">Multiplexed and multiple primer pairs</a></li>
+<li><a href="#paired-end-1">Paired End</a></li>
+</ul></li>
+<li><a href="#filtering-parameters">Filtering parameters</a><ul>
+<li><a href="#length">Length</a></li>
+<li><a href="#quality">Quality</a></li>
+<li><a href="#dry-run-quality-testing">Dry run quality testing</a></li>
+<li><a href="#primers-1">Primers</a></li>
+</ul></li>
+<li><a href="#additional-options">Additional Options</a><ul>
+<li><a href="#looking-in-the-reverse-complement-direction">Looking in the reverse complement direction</a></li>
+<li><a href="#looking-for-barcodesprimers-at-various-locations">Looking for barcodes/primers at various locations</a></li>
+</ul></li>
+<li><a href="#barcodes">Barcodes</a><ul>
+<li><a href="#barcodes-on-both-ends">Barcodes on both ends</a></li>
+<li><a href="#allowing-errors-in-barcodes">Allowing errors in barcodes</a></li>
+<li><a href="#renaming-of-sequence-ids">Renaming of sequence ids</a></li>
+<li><a href="#changing-out-directory-name">Changing out directory name</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+
+<section id="extractors-purpose" class="level1 purposeDiv">
+<h1>extractor’s Purpose</h1>
+<p><a href="#TOC">back to top</a><br />
+The main purpose of extractor is to take raw data and demultiplex by sample barcodes if present and by primer pairs. It at most requires two arguments: an input file which can be fastq (<code>--fastq</code>) or fasta (<code>--fasta</code>) and an ID file (<code>--id</code>) that supplies primer pairs and barcodes if present. It will also do some quality control as well for length and quality scores.</p>
+</section>
+<section id="paired-end-extraction" class="level1">
+<h1>Paired End Extraction</h1>
+<p>There is a separate extractor command for extracting paired end data and is simply called <code>SeekDeep extractorPairedEnd</code> and shares most of the command line options with regular single end <code>SeekDeep extractor</code></p>
+</section>
+<section id="getting-usage-command-line" class="level1">
+<h1>Getting usage command line</h1>
+<p><a href="#TOC">back to top</a><br />
+Calling <code>-help</code> will give a help message on running the program</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --help </a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="ex">SeekDeep</span> extractorPairedEnd --help </a></code></pre></div>
+<p>Also all flags in SeekDeep are case insensitive and so all the following would have the same results</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --help </a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="ex">SeekDeep</span> extractor --HELP</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="ex">SeekDeep</span> extractor --HeLP</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="ex">SeekDeep</span> extractor --HeLp</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="ex">SeekDeep</span> extrActor --HeLP</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="ex">SeekDeep</span> ExtraCtor --HeLp</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="ex">SeekDeep</span> EXTRACTOR --HeLp</a></code></pre></div>
+</section>
+<section id="format-of-id-file" class="level1">
+<h1>Format of id file</h1>
+<p><a href="#TOC">back to top</a><br />
+The id file is a tab delimited file that contains both primer pair info and optional barcode information<br />
+Primer information starts with a header line that must start with either <code>gene</code> or <code>target</code> and have two additional columns for forward and reverse primers, the line can start with either gene or target.</p>
+<pre><code>target  forward reverse
+PFAMA1  CAGGGAAATGTCCAGTATT CTTGAACATAAAGTCAATTC
+PFCSP   ACAATCAAGGTAATGGACAAGG  TTTTCAATATCATTTYCATAATCTAATT</code></pre>
+<section id="primers" class="level2">
+<h2>Primers</h2>
+<p><a href="#TOC">back to top</a><br />
+The primers can contain <a href="http://www.dnabaser.com/articles/IUPAC%20ambiguity%20codes.html">ambigious bases</a> (Y,R,etc.) and should be all upper case</p>
+<section id="forward-primer" class="level3">
+<h3>Forward Primer</h3>
+<p><a href="#TOC">back to top</a><br />
+Forward primer should be in the 5`-3` direction.</p>
+</section>
+<section id="reverse-primer" class="level3">
+<h3>Reverse Primer</h3>
+<p><a href="#TOC">back to top</a><br />
+The reverse primer should in in the 5`-3` direction as well.</p>
+</section>
+</section>
+<section id="mids" class="level2">
+<h2>MIDs</h2>
+<p><a href="#TOC">back to top</a><br />
+If data is multiplexed the MID name and corresponding barcode information comes after the primer information. Barcode information needs to start with a header <code>id  barcode</code> which the <code>id</code> is the important name for parsing. Mids should be in the direction they would be found in if reads are found in the direction of the forward primer. It is always assumed that the mid and primer set up is MID-PRIMER. If this is not the case for your data contact Nick Hathaway (<a href="mailto:nicholas.hathaway@umassmed.edu">nicholas.hathaway@umassmed.edu</a>) to see if he can add options for accommodating your data structure.</p>
+<pre><code>target  forward reverse
+PFAMA1  CAGGGAAATGTCCAGTATT CTTGAACATAAAGTCAATTC
+PFCSP   ACAATCAAGGTAATGGACAAGG  TTTTCAATATCATTTYCATAATCTAATT
+id  barcode
+MID01   ACGAGTGCGT
+MID02   ACGCTCGACA
+MID03   AGACGCACTC
+MID04   AGCACTGTAG
+MID05   ATCAGACACG
+MID06   ATATCGCGAG
+MID07   CGTGTCTCTA
+MID08   CTCGCGTGTC
+MID10   TCTCTATGCG
+MID11   TGATACGTCT
+MID13   CATAGTAGTG
+MID14   CGAGAGATAC
+MID15   ATACGACGTA
+MID16   TCACGTACTA
+MID17   CGTCTAGTAC
+MID18   TCTACGTAGC</code></pre>
+</section>
+</section>
+<section id="output-files" class="level1">
+<h1>Output files</h1>
+<p><a href="#TOC">back to top</a><br />
+A directory will be created for the output of extractor, this defaults to the name of the file plus the work extractor and then the current date and time of the when the command was run. This can be changed with the <code>--dout</code> flag. In this directory will be the sequences and several files reporting on how the extraction when.</p>
+<ul>
+<li><strong>extractionProfile.tab.txt</strong> - Reports stats on extraction per mid and primer pair<br />
+</li>
+<li><strong>extractionStats.tab.txt</strong> - Reports stats on the extraction overall<br />
+</li>
+<li><strong>runLog_extractor.txt</strong> - Contains the date and where the command was run on and what it was and total run time<br />
+</li>
+<li><strong>filteredOff</strong> - A directory containing the reads that didn’t meet filtering criteria or match the input primers/mids</li>
+</ul>
+<p>Example of extractionProfile.tab.txt</p>
+<pre><code>name         totalReadsExtracted  goodReadsExtracted  forGood      revGood  totalBadReads  badReverse  containsNs  len&lt;200  len&gt;300  badQualityWindow  contamination
+PFAMA1MID01  8474                 8035(94.8%)         8035(94.8%)  0(0%)    439(5.18%)     0(0%)       59(13.4%)   0(0%)    0(0%)    380(86.6%)        0(0%)
+PFAMA1MID02  8764                 8307(94.8%)         8307(94.8%)  0(0%)    457(5.21%)     0(0%)       94(20.6%)   0(0%)    0(0%)    363(79.4%)        0(0%)
+PFAMA1MID03  8313                 7980(96%)           7980(96%)    0(0%)    333(4.01%)     0(0%)       71(21.3%)   0(0%)    0(0%)    262(78.7%)        0(0%)
+PFAMA1MID04  7608                 7245(95.2%)         7245(95.2%)  0(0%)    363(4.77%)     0(0%)       66(18.2%)   0(0%)    0(0%)    297(81.8%)        0(0%)
+PFAMA1MID05  9757                 9187(94.2%)         9187(94.2%)  0(0%)    570(5.84%)     0(0%)       100(17.5%)  0(0%)    0(0%)    470(82.5%)        0(0%)
+PFAMA1MID06  8521                 8018(94.1%)         8018(94.1%)  0(0%)    503(5.9%)      1(0.199%)   74(14.7%)   0(0%)    0(0%)    428(85.1%)        0(0%)
+PFAMA1MID07  9778                 9236(94.5%)         9236(94.5%)  0(0%)    542(5.54%)     0(0%)       84(15.5%)   0(0%)    0(0%)    458(84.5%)        0(0%)
+PFAMA1MID08  7866                 7427(94.4%)         7427(94.4%)  0(0%)    439(5.58%)     0(0%)       75(17.1%)   0(0%)    0(0%)    364(82.9%)        0(0%)</code></pre>
+<p>Example of extractionStats.tab.txt</p>
+<pre><code>TotalReads  ReadsNotMatchedBarcodes  SmallFragments(len&lt;50)  failedForwardPrimer  failedQualityFiltering  used          contamination
+70213       73(0.104%)               0(0%)                   1059(1.51%)          3646(5.19%)             65435(93.2%)  0(0%)</code></pre>
+<p>The output files will be named by the using the name given in the gene column and the name in id column if the data is multiplexed.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="fu">ls</span> ./</a></code></pre></div>
+<pre><code>PFAMA1MID01.fastq
+PFAMA1MID02.fastq
+PFAMA1MID03.fastq
+PFAMA1MID04.fastq
+PFAMA1MID05.fastq
+PFAMA1MID06.fastq
+PFAMA1MID07.fastq
+PFAMA1MID08.fastq
+extractionProfile.tab.txt
+extractionStats.tab.txt
+parametersUsed.txt
+runLog_extractor.txt</code></pre>
+</section>
+<section id="examples" class="level1">
+<h1>Examples</h1>
+<section id="required-files" class="level2">
+<h2>Required files</h2>
+<p><code>SeekDeep extractor</code> and <code>SeekDeep extractorPairedEnd</code> require an input sequence file and an identifier file.</p>
+<section id="different-input-formats" class="level3">
+<h3>Different input formats</h3>
+<p><a href="#TOC">back to top</a></p>
+<section id="fastq-input" class="level4">
+<h4>Fastq Input</h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="ex">SeekDeep</span> extractor --fastqgz example.fastq.gz --id ids.txt</a></code></pre></div>
+</section>
+<section id="fasta-input" class="level4">
+<h4>Fasta Input</h4>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fasta example.fasta --id ids.txt</a></code></pre></div>
+</section>
+<section id="fasta-and-qual-input" class="level4">
+<h4>Fasta and Qual Input</h4>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fasta example.fasta --qual example.fasta.qual --id ids.txt</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#or</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="ex">SeekDeep</span> extractor --stub example --id ids.txt</a></code></pre></div>
+</section>
+</section>
+<section id="paired-end" class="level3">
+<h3>Paired End</h3>
+<p>For paired end the only options are fastq or fastqgz and both mates have to be indicated. This also assumes that R1 sequences are in the 5`-3` direction of the top strand, and R2 are in the 5`-3` direction of the bottom strand.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="ex">SeekDeep</span> extractorPairedEnd --fastq1 example_R1.fastq --fastq2 example_R2.fastq --id ids.txt</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="ex">SeekDeep</span> extractorPairedEnd --fastq1gz example_R1.fastq.gz --fastq2gz example_R2.fastq.gz --id ids.txt</a></code></pre></div>
+</section>
+<section id="multiplexed-and-multiple-primer-pairs" class="level3">
+<h3>Multiplexed and multiple primer pairs</h3>
+<p><a href="#TOC">back to top</a></p>
+<section id="multiplex" class="level4">
+<h4>Multiplex</h4>
+<p><a href="#TOC">back to top</a><br />
+Multiplexing simply requires having MID/barcodes in id file, a header line is required that starts with <code>id</code> to indicate to <code>SeekDeep extractor</code> that barcodes are starting.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="fu">cat</span> id_file.tab.txt</a></code></pre></div>
+<pre><code>target  forwardPrimer   reversePrimer
+PFAMA1  CCATCAGGGAAATGTCCAGT    TTTCCTGCATGTCTTGAACA
+id  barcode
+MID01   ACGAGTGCGT
+MID02   ACGCTCGACA
+MID03   AGACGCACTC
+MID04   AGCACTGTAG
+MID05   ATCAGACACG
+MID06   ATATCGCGAG
+MID07   CGTGTCTCTA
+MID08   CTCGCGTGTC</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id id_file.tab.txt --multiplex</a></code></pre></div>
+</section>
+<section id="multiple-primer-pairs" class="level4">
+<h4>Multiple primer pairs</h4>
+<p><a href="#TOC">back to top</a><br />
+Multiple primer pairs is done simply by adding another primer info line, this can also be combined with multiplexing</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="fu">cat</span> multipleGenePairs.id.txt</a></code></pre></div>
+<pre><code>gene    forwardPrimer   reversePrimer
+PFAMA1  CCATCAGGGAAATGTCCAGT    TTTCCTGCATGTCTTGAACA
+PFMSP1  AACTAGAAGCTTTAGAAGATGCA ACATATGATTGGTTAAATCAAAG
+id  barcode
+MID01   ACGAGTGCGT
+MID02   ACGCTCGACA
+MID03   AGACGCACTC
+MID04   AGCACTGTAG
+MID05   ATCAGACACG
+MID06   ATATCGCGAG
+MID07   CGTGTCTCTA
+MID08   CTCGCGTGTC</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fasta example.fasta --id multipleGenePairs.id.txt </a></code></pre></div>
+</section>
+</section>
+<section id="paired-end-1" class="level3">
+<h3>Paired End</h3>
+<p>For paired reads an additional file is required that indicates if there is overlap between the mates. There are three possible overlap scenarios: noOverLap, r1EndsInR2 (normal overlap goal), and r1BeginsInR2 (happens with read through). If there is overlap <code>SeekDeep extractorPairedEnd</code> will stitch together the mates and if there is no overlap it will extract and have a _R1 and _R2 files for the target. The different overlap scenarios are required as there are many ways to generate artifacts in PCR (unspecific amplification, primer dimers, etc) that could lead to the wrong overlap and therefore reads that overlap in the way that they are expected to are given in the final output files and the rest assumed to be artifact. See <a href="illumina_paired_info.html">Illumina Paired Info Page</a> for a diagram on how sequences overlap.</p>
+<p>The overlap status of the targets is given by a file with two columns, <code>target</code> and <code>status</code>. The order of columns does not matter and the case of the status column does not matter, the target column does. The name given in the target column must match with the names given in the id file.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="fu">cat</span> overlapStatuses.txt</a></code></pre></div>
+<pre><code>target  status
+PFAMA1  R1BeginsInR2
+PFCSP   R1BeginsInR2</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq1 example_R1.fastq --fastq2 example_R2.fastq --id multipleGenePairs.id.txt --overlapStatusFnp overlapStatuses.txt </a></code></pre></div>
+</section>
+</section>
+<section id="filtering-parameters" class="level2">
+<h2>Filtering parameters</h2>
+<p><a href="#TOC">back to top</a></p>
+<section id="length" class="level3">
+<h3>Length</h3>
+<p>Reads are filtered on expected length by choosing a minimum length (<code>--minLen</code>) and a maximum length (<code>--maxLen</code>), these default to be within 20% of the median input read lengths</p>
+<section id="minimum-length" class="level4">
+<h4>Minimum Length</h4>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --minLen 150</a></code></pre></div>
+</section>
+<section id="maximum-length" class="level4">
+<h4>Maximum Length</h4>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --minLen 150 --maxLen 300</a></code></pre></div>
+<p>You can also supply a file with len cutoffs which is especially useful for when you have different expected lengths for different targets, the file needs to contain at least three columns with one column named target which contain the name of the target region which must match the target name in the <code>--id</code> file and two columns <code>minlen</code> and <code>maxlen</code> which contain the min and max length for the target.<br />
+This is supplied with the <code>--lenCutOffs</code> flags.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --lenCutOffs lengthCutOffsForTargets.tab.txt </a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="fu">cat</span> lengthCutOffsForTargets.tab.txt</a></code></pre></div>
+<pre><code>target  minlen  maxlen
+PFAMA1  200 240
+PFCSP   254 294</code></pre>
+</section>
+</section>
+<section id="quality" class="level3">
+<h3>Quality</h3>
+<p>When quality values are supplies they can be used to filter reads as well, there are two options for quality filtering. The default is to use the sliding quality window threshold method, this is good for Ion Torrent, 454, and PacBio. The second quality option is good for Illumina</p>
+<section id="siding-window-average-threshold" class="level4">
+<h4>Siding window average threshold</h4>
+<p>By default a sliding window of size 50 and stepping by every 5 bases and checking to see if the average quality of those 50 bases are above a threshold of 25. The default values can be changed by using the <code>--qualWindow</code> flag and supplying three values separated by commas which are the window size, window step, and window threshold. So the below example would use a window size of 50, a step of 5, and a average threshold of 20</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --qualWindow 50,5,20</a></code></pre></div>
+<p>Also the default behavior is to throw out any read where this ever fails and this can be changed to trimming the read at the failed window instead using the <code>-qualWindowTrim</code> flag. The minimum length filter is applied after this step so if the trim falls below the min len it will still be filtered out</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --qualWindow 50,5,20 --qualWindowTrim</a></code></pre></div>
+</section>
+<section id="quality-fraction-above-a-threshold" class="level4">
+<h4>Quality fraction above a threshold</h4>
+<p>A second option for filtering using quality scores is using the distribution of a reads quality scores. This is done by choosing a quality score cut off and checking to see if a certain fraction of quality scores are above a fraction cut off. This is done by using the <code>-qualCheck</code> and the <code>qualCheckCutOff</code> flags. So the below example would throw out any reads where less than 75% of their quality scores was above 25</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --qualCheck 25 --qualCheckCutOff .75</a></code></pre></div>
+</section>
+</section>
+<section id="dry-run-quality-testing" class="level3">
+<h3>Dry run quality testing</h3>
+<p>Since extraction might take some time, it might be nice to see how many reads you would loose with different setting, so a command was added to SeekDeep to do a dry run to output the percentage of reads you would loose if certain quality parameters were used, this is called <strong>SeekDeep dryRunQualityFiltering</strong> and the arguments are similar to the arguments above.</p>
+<section id="checking-quality-window" class="level4">
+<h4>Checking quality window</h4>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="ex">SeekDeep</span> dryRunQualityFiltering --fastq example.fastq  --qualWindow 50,5,25</a></code></pre></div>
+<pre><code>void bibseq::SeqInput::openIn(): Error file: [31m[1mMultiplex_IT_Tutorial_Materials/IonTorrent1.fastq[0m doesn&#39;t exist</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="ex">SeekDeep</span> dryRunQualityFiltering --fastq example.fastq  --qualWindow 50,5,20</a></code></pre></div>
+<pre><code>void bibseq::SeqInput::openIn(): Error file: [31m[1mMultiplex_IT_Tutorial_Materials/IonTorrent1.fastq[0m doesn&#39;t exist</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="ex">SeekDeep</span> dryRunQualityFiltering --fastq example.fastq  --qualWindow 50,5,18</a></code></pre></div>
+<pre><code>void bibseq::SeqInput::openIn(): Error file: [31m[1mMultiplex_IT_Tutorial_Materials/IonTorrent1.fastq[0m doesn&#39;t exist</code></pre>
+</section>
+<section id="checking-qualcheck" class="level4">
+<h4>checking qualcheck</h4>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --qualCheck 25 --qualCheckCutOff .75</a></code></pre></div>
+<pre><code>void bibseq::SeqInput::openIn(): Error file: [31m[1mMultiplex_IT_Tutorial_Materials/IonTorrent1.fastq[0m doesn&#39;t exist</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --qualCheck 20 --qualCheckCutOff .75</a></code></pre></div>
+<pre><code>void bibseq::SeqInput::openIn(): Error file: [31m[1mMultiplex_IT_Tutorial_Materials/IonTorrent1.fastq[0m doesn&#39;t exist</code></pre>
+</section>
+</section>
+<section id="primers-1" class="level3">
+<h3>Primers</h3>
+<p><a href="#TOC">back to top</a></p>
+<p>There are various filtering parameters that can be applied to the presence of primers. This includes percent of primer found, the number of mismatches to the primer, and not searching for the primer at all. See SeekDeep extractor -help for more details and defaults</p>
+<section id="reverse-primer-1" class="level4">
+<h4>Reverse Primer</h4>
+<p>Looking for primers can be turned off and simple filtering can be done, this requires the flag <code>--noPrimers</code> and that the ID file has just one primer line so that a target name can be given to the out files but the forward and reverse primer columns are ignore.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --noPrimers </a></code></pre></div>
+</section>
+</section>
+</section>
+<section id="additional-options" class="level2">
+<h2>Additional Options</h2>
+<p><a href="#TOC">back to top</a></p>
+<section id="looking-in-the-reverse-complement-direction" class="level3">
+<h3>Looking in the reverse complement direction</h3>
+<p>Depending on the library set up reads are can be found in two directions. Reads found in the reverse complement direction will be reverse complemented and their name will be marked with <code>_Comp</code> so all sequences are in the same direction. There are separate flags for searching MIDs in both directions (–checkRevComplementForMids) and for searching for primers in the both directions (–checkRevComplementForPrimers). And depending on library prep again you might have to combine the two.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fasta example.fasta --id ids.txt  --checkRevComplementForMids</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fasta example.fasta --id ids.txt  --checkRevComplementForPrimers</a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fasta example.fasta --id ids.txt  --checkRevComplementForMids --checkRevComplementForPrimers</a></code></pre></div>
+</section>
+<section id="looking-for-barcodesprimers-at-various-locations" class="level3">
+<h3>Looking for barcodes/primers at various locations</h3>
+<p><a href="#TOC">back to top</a></p>
+<p>Barcodes and primers aren’t always located at the very beginning of the sequences and the search region has to be expanded which can be done using the <code>--midWithinStart</code> flag for mids and <code>--primerWithinStart</code>, the below example would check for the barcodes and primers for start sites within the first 10 bases of the start of the sequence (the primer/MID just has to start within this many bases and not be contained completely with this region, e.g. the primer could be found at base 10 but extend to base 30 and would be caught with this flag). When data is multiplexed the primer within start parameter is the number of bases within the found MID and not the start of the sequence.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --midWithinStart 10</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --primerWithinStart 10</a></code></pre></div>
+<p>And again, depending on library prep you might need to combine these two flags. For instance, if you had say a variable number of bases of up to 4 in front of your MIDs and then an additional variable number of bases in between your MIDs and primers (lets say up to 10).</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --midWithinStart 4 --primerWithinStart 10</a></code></pre></div>
+<p>It is advised to keep these numbers low as a high number will greatly increase the search space and could lead to many false positives.</p>
+</section>
+</section>
+<section id="barcodes" class="level2">
+<h2>Barcodes</h2>
+<section id="barcodes-on-both-ends" class="level3">
+<h3>Barcodes on both ends</h3>
+<p>You can also indicated that the barcode is present on both ends of the input sequences by using the <code>--barcodeBothEnds</code> flag.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --barcodeBothEnds</a></code></pre></div>
+</section>
+<section id="allowing-errors-in-barcodes" class="level3">
+<h3>Allowing errors in barcodes</h3>
+<p>You can allow mismatches in barcodes using <code>--barcodeErrors</code></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --barcodeErrors 2 --barcodeBothEnds</a></code></pre></div>
+</section>
+<section id="renaming-of-sequence-ids" class="level3">
+<h3>Renaming of sequence ids</h3>
+<p><a href="#TOC">back to top</a></p>
+<p>The names given to the sequences are sometimes annoying so adding the <code>--rename</code> flag will rename the sequence with what primer/mid they were found with</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt  --rename</a></code></pre></div>
+<p>A file will be created called <code>renameKey.tab.txt</code> which contains the name conversion.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="fu">cat</span> renameKey.tab.txt</a></code></pre></div>
+<pre><code>originalName    newName
+JUW96:00012:00129   PFAMA1MID01.00
+JUW96:00013:00133   PFAMA1MID01.01
+JUW96:00017:00147   PFAMA1MID01.02_Comp
+JUW96:00018:00120   PFAMA1MID01.03
+JUW96:00020:00136   PFAMA1MID01.04_Comp
+JUW96:00029:00127   PFAMA1MID01.05
+JUW96:00032:00129   PFAMA1MID01.06
+JUW96:00033:00147   PFAMA1MID01.07_Comp
+JUW96:00035:00137   PFAMA1MID01.08_Comp</code></pre>
+</section>
+<section id="changing-out-directory-name" class="level3">
+<h3>Changing out directory name</h3>
+<p><a href="#TOC">back to top</a></p>
+<p>To change the default directory name use the <code>--dout</code> flag. SeekDeep will never overwrite a directory if it already exists and will fail and quit if it tries to create a directory that exists.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --dout extractionDir</a></code></pre></div>
+<p>The dout option also understand the key work TODAY to mean to insert the current date and time there instead though this means a output directory name can never have TODAY all in caps in it</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="ex">SeekDeep</span> extractor --fastq example.fastq --id ids.txt --dout extractionDir_TODAY</a></code></pre></div>
+</section>
+</section>
+</section>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
